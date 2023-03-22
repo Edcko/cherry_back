@@ -1,7 +1,9 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { db } from "../config/database.js";
 
-const Empleado = db.sequelize.define('empleado',{
+class Empleado extends Model{}
+
+Empleado.init({
     id_empleado: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -41,9 +43,13 @@ const Empleado = db.sequelize.define('empleado',{
         allowNull: false
     }
     
- }, {
-        timestamps: false,
-        tableName: 'empleado'    
-});
+ }, 
+    {
+        sequelize: db.sequelize,
+        modelName: 'Empleado',
+        tableName: 'empleado',
+        timestamps: false,   
+    }
+);
 
-export {Empleado};
+export { Empleado };

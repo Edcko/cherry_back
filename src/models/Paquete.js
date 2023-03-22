@@ -1,7 +1,9 @@
 import { db } from "../config/database.js";
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 
-const Paquete =  db.sequelize.define('paquete', {
+class Paquete extends Model{}
+
+Paquete.init({
     id_paquete:{
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -33,8 +35,10 @@ const Paquete =  db.sequelize.define('paquete', {
         allowNull: false
     }
 }, {
+    sequelize: db.sequelize,
+    modelName: 'Paquete',
+    tableName: 'paquete',
     timestamps: false,
-    tableName: 'paquete'
 });
 
 export { Paquete };

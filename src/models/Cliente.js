@@ -1,8 +1,9 @@
 import { db } from "../config/database.js";
-import { DataTypes } from "sequelize";
-//import { Spa } from "./Spa.js";
+import { DataTypes, Model } from "sequelize";
 
-const Cliente = db.sequelize.define('cliente', {
+class Cliente extends Model{}
+
+Cliente.init({
     id_cliente: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -46,16 +47,10 @@ const Cliente = db.sequelize.define('cliente', {
     }, 
 
 }, {
+    sequelize: db.sequelize,
+    modelName: 'Cliente',
+    tableName: 'cliente',
     timestamps: false,
-    tableName: 'cliente'
 });
-
-/*
-Cliente.belongsTo(Spa, { 
-    foreignKey: 'id_spa',
-    onDelete: 'restrict',
-    onUpdate: 'cascade'
-});
-*/
 
 export { Cliente };

@@ -1,10 +1,10 @@
 import { DataTypes, Model } from "sequelize";
 import { db } from "../config/database.js";
-import { Cliente } from "./Cliente.js";
+//import { Cliente } from "./Cliente.js";
 
-//class Spa extends Model {}
+class Spa extends Model {}
 
- const Spa = db.sequelize.define('spa', {
+Spa.init({
     id_spa: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -34,15 +34,21 @@ import { Cliente } from "./Cliente.js";
         type: DataTypes.STRING(12),
         allowNull: false
       }
-    }, {
+    }, 
+    {
+      sequelize: db.sequelize,
+      modelName: 'Spa',
+      tableName: 'spa',
       timestamps: false,
-      tableName: 'spa'
-});
+    }
+);
 
+/*
 Spa.hasMany(Cliente, {
   foreignKey: 'id_spa',
   onDelete: 'restrict',
   onUpdate: 'cascade'
 });
+*/
 
-export {Spa};
+export { Spa };

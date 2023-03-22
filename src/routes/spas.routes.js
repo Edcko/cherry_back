@@ -18,5 +18,8 @@ router.put('/spa/:id', spaController.updateSpa);
 // Ruta para eliminar un spa 
 router.delete('/spa/:id', spaController.deleteSpa);
 
+//Ruta para obtener todos los empleados de un spa por ID
+router.get('/spa/:id/empleados', spaController.getEmployeesBySpaId);
+
 
 export default router;

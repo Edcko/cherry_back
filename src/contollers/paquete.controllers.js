@@ -1,10 +1,11 @@
-import { Paquete } from "../models/Paquete.js";
+//import { Paquete } from "../models/Paquete.js";
+import { paqueteService } from "../services/paquete.services.js";
 
 const paqueteController = {
 
     async getPaquetes(req, res){
         try{
-           const paquetes = await Paquete.findAll(); 
+           const paquetes = await paqueteService.getAllPaquetes(); 
            res.status(200).json(paquetes);
         }catch(error){
             console.error(error);
@@ -16,7 +17,7 @@ const paqueteController = {
         const { id } = req.params;
 
         try{
-            const paquete = await Paquete.findByPk(id);
+            const paquete = await paqueteService.getPaqueteById(id);
 
             if(!paquete){
                 res.status(404).json({ message: `Paquete with id ${id} not found`});
@@ -32,18 +33,10 @@ const paqueteController = {
     },
 
     async createPaquete(req, res){
-        const { id_paquete, nombre_paquete, descripcion, precio, fecha_inicio, fecha_fin, id_empleado } = req.body;
+ // const { id_paquete, nombre_paquete, descripcion, precio, fecha_inicio, fecha_fin, id_empleado } = req.body;
 
         try{
-            const newPaquete = await Paquete.create({
-                id_paquete, 
-                nombre_paquete, 
-                descripcion, 
-                precio, 
-                fecha_inicio, 
-                fecha_fin, 
-                id_empleado
-            });
+            const newPaquete = await paqueteService.createPaquete(req.body);
             res.status(201).json(newPaquete);
         }catch(error){
             console.error(error);
@@ -54,23 +47,14 @@ const paqueteController = {
 
     async updatePaquete(req, res){
         const { id } = req.params;
-        const { id_paquete, nombre_paquete, descripcion, precio, fecha_inicio, fecha_fin, id_empleado } = req.body;
+    //  const { id_paquete, nombre_paquete, descripcion, precio, fecha_inicio, fecha_fin, id_empleado } = req.body;
 
         try{
-            const paquete = await Paquete.findOne({ where: {id_paquete: id} });
+            const updatedPaquete = await paqueteService.updatePaquete(id, body.req);
 
-            if(!paquete){
+            if(!updatedPaquete){
                 res.status(404).json({ message: `Paquete with id ${id} not found` });
             }else{
-                const updatedPaquete = await paquete.update({
-                id_paquete, 
-                nombre_paquete, 
-                descripcion, 
-                precio, 
-                fecha_inicio, 
-                fecha_fin, 
-                id_empleado
-                });
                 res.status(200).json(updatedPaquete);
             }
         }catch(error){
@@ -85,12 +69,11 @@ const paqueteController = {
         const{ id } = req.params;
 
         try{
-            const paquete = await Paquete.findOne({ where: {id_paquete: id} });
+            const deletedPaquete = await paqueteService.deletePaquete(id);
 
-            if(!paquete){
+            if(!deletedPaquete){
                 res.status(404).json({ message: `Paquete with id ${id} not found` });
             }else{
-                await paquete.destroy();
                 res.status(204).send();
             }
 
@@ -98,7 +81,7 @@ const paqueteController = {
             console.error(error);
             res.status(500).json({ message: `Error deleting paquete with id ${id}` });
         }
-    }
+    },
 
 }
 

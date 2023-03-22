@@ -4,6 +4,7 @@ import empleadoRoutes from "./routes/empleado.routes.js";
 import clienteRoutes from "./routes/cliente.routes.js";
 import paqueteRoutes from "./routes/paquete.routes.js";
 import sesionRoutes from "./routes/sesion.routes.js";
+import TrabajaEnRoutes from "./routes/trabaja_en.routes.js";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use('/cherry', empleadoRoutes);
 app.use('/cherry', clienteRoutes);
 app.use('/cherry', paqueteRoutes);
 app.use('/cherry', sesionRoutes);
+app.use('/cherry', TrabajaEnRoutes);
 
 //Manejador de errores
 app.use((err, req, res, next) => {

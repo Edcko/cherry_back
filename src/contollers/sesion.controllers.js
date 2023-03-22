@@ -1,10 +1,11 @@
-import { Sesion } from "../models/Sesion.js";
+import { Sesion } from "../models/index.js";
+import { sesionService } from "../services/sesion.services.js";
 
 const sesionController = {
     
     async getSesiones(req, res){
         try{
-            const sesiones = await Sesion.findAll();
+            const sesiones = await sesionService.getAllSesiones();
             res.status(200).json(sesiones);
         }catch(error){
             console.error(error);
@@ -16,7 +17,7 @@ const sesionController = {
         const { id } = req.params;
 
         try{
-            const sesion = await Sesion.findByPk(id);
+            const sesion = await sesionService.getSesionById(id);
 
             if(!sesion){
                 res.status(404).json({ message: `Sesion with id ${id} not found`});
@@ -32,16 +33,10 @@ const sesionController = {
     },
 
     async createSesion(req, res){
-        const { id_sesion,numero_sesion, descripcion, fecha, fecha_cancelacion } = req.body;
+  //    const { id_sesion,numero_sesion, descripcion, fecha, fecha_cancelacion } = req.body;
         
         try{
-            const newSesion = await Sesion.create({
-                id_sesion,
-                numero_sesion,
-                descripcion,
-                fecha,
-                fecha_cancelacion
-            });
+            const newSesion = await sesionService.createSesion(req.body);
             res.status(201).json(newSesion);
         }catch(error){
             console.error(error)
@@ -52,21 +47,14 @@ const sesionController = {
 
     async updateSesion(req,res){
         const { id } = req.params;
-        const { id_sesion, numero_sesion, descripcion, fecha,fecha_cancelacion } = req.body;
+    //  const { id_sesion, numero_sesion, descripcion, fecha,fecha_cancelacion } = req.body;
 
         try{
-            const sesion = await Sesion.findOne({ where: {id_sesion: id} });
+            const updatedSesion = await sesionService.updateSesion(id, req.body);
 
-            if(!sesion){
+            if(!updatedSesion){
                 res.status(404).json({ message: `Sesion with id ${id} not found` });
             }else{
-                const updatedSesion = await sesion.update({
-                id_sesion,
-                numero_sesion,
-                descripcion,
-                fecha,
-                fecha_cancelacion
-                });
                 res.status(200).json(updatedSesion);
             }
         }catch(error){
@@ -80,12 +68,11 @@ const sesionController = {
         const { id } = req.params;
 
         try{
-            const sesion = await Sesion.findOne({ where: {id_sesion: id} });
+            const deletedSesion = await sesionService.deleteSesion(id);
 
-            if(!sesion){
+            if(!deletedSesion){
                 res.status(404).json({ message: `Sesion with id ${id} not found` });
             }else{
-                await sesion.destroy();
                 res.status(204).send();
             }
 

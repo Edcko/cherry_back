@@ -1,10 +1,11 @@
-import { Spa } from "../models/Spa.js";
+import { Empleado, Spa } from "../models/index.js";
+import { spaService } from "../services/spa.services.js";
 
 const spaController = {
 
 async getSpas(req, res){
     try{
-        const spas = await Spa.findAll();
+        const spas = await spaService.getAllSpas();
         res.status(200).json(spas);
     }catch (error){
         console.log(error);
@@ -16,7 +17,7 @@ async getSpaById(req, res){
     const { id } = req.params;
 
     try{
-        const spa = await Spa.findByPk(id);
+        const spa = await spaService.getSpaById(id);
 
         if(!spa){
             res.status(404).json({ message: `Spa with id ${id} not found` });
@@ -32,18 +33,10 @@ async getSpaById(req, res){
 },
 
 async createSpa(req,res) {
-    const {id_spa, nombre_spa, ciudad, calle, colonia, codigo_postal, telefono} = req.body;
+ //   const {id_spa, nombre_spa, ciudad, calle, colonia, codigo_postal, telefono} = req.body;
 
     try{
-        const newSpa = await Spa.create({
-            id_spa,
-            nombre_spa,
-            ciudad,
-            calle,
-            colonia,
-            codigo_postal,
-            telefono
-        });
+        const newSpa = await spaService.createSpa(req.body);
         res.status(201).json(newSpa);
     }catch (error){
         console.error(error);
@@ -53,42 +46,31 @@ async createSpa(req,res) {
 
  async updateSpa(req, res){
     const { id } = req.params;
-    const { id_spa, nombre_spa, ciudad, calle, colonia ,codigo_postal, telefono } = req.body;
+//  const { id_spa, nombre_spa, ciudad, calle, colonia ,codigo_postal, telefono } = req.body;
 
     try{
-        const spa = await Spa.findOne({ where: {id_spa: id}});
+        const updatedSpa = await spaService.updateSpa(id, req.body);
 
-        if(!spa){
+        if(!updatedSpa){
             res.status(404).json({ message: `Spa with id ${id} not found` });
-        }else{
-            const updatedSpa = await spa.update({
-                id_spa,
-                nombre_spa,
-                ciudad,
-                calle,
-                colonia,
-                codigo_postal,
-                telefono
-            });
-            res.status(200).json(updatedSpa);
+        }else{ 
+        res.status(200).json(updatedSpa);
         }
     }catch (error){
         console.error(error);
         res.status(500).json({ message: `Error updating spa with id ${id}` });
     }
-
  },
 
  async deleteSpa(req, res){
     const { id } = req.params;
 
     try {
-        const spa = await Spa.findOne({ where: {id_spa: id } });
+        const deletedSpa = await spaService.deleteSpa(id);
 
-        if(!spa){
+        if(!deletedSpa){
             res.status(404).json({ message: `Spa with id ${id} not found` });
         }else{
-            await spa.destroy();
             res.status(204).send()
         }
     }catch (error){
@@ -98,6 +80,32 @@ async createSpa(req,res) {
  
  },
 
+ async getEmployeesBySpaId(req,res){
+    const { id } = req.params;
+
+    try{
+        const spa = await Spa.findByPk(id,{
+            include: {
+                model: Empleado,
+                as: "Empleados",
+                through: {
+                    attributes: ["puesto", "salario"],
+                },
+            },
+        });
+
+        if(!spa){
+            res.status(404).json({ message: `Spa with id {id} not found` });
+        }else{
+            res.status(200).json(spa.Empleados);
+        }
+
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ message: `Error retrieving employees for spa with id {$id}` });
+    }
+
+ },
 
 }
 
