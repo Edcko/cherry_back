@@ -1,4 +1,5 @@
 import { Empleado } from "../models/index.js";
+import  bcrypt  from "bcrypt"
 
 const empleadoService = {
 
@@ -11,6 +12,9 @@ const empleadoService = {
     },
 
     async createEmpleado(data){
+
+        const hashedPassword = await bcrypt.hash(data.password_empleado, 10);
+        data.password_empleado = hashedPassword;
         return await Empleado.create(data);
     },
 

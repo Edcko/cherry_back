@@ -41,6 +41,14 @@ Empleado.init({
     sexo: {
         type: DataTypes.STRING(1),
         allowNull: false
+    },
+    password_empleado:{
+        type: DataTypes.STRING(255),
+        allowNull: false
+    },
+    fecha_contratacion:{
+        type: DataTypes.DATE,
+        allowNull: false
     }
     
  }, 

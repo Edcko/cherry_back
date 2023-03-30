@@ -17,7 +17,7 @@ const trabajaEnController = {
         const { id } = req.params;
 
         try{
-            const trabajaEn = await trabajaEnService.getAllTrabajanEn(id);
+            const trabajaEn = await trabajaEnService.getTrabajaEnById(id);
 
             if(!trabajaEn){
                 res.status(404).json({ message: `Paquete with id ${id} not found` });
@@ -57,7 +57,7 @@ const trabajaEnController = {
                 res.status(200).json(updatedTrabajaEn);
             }
         }catch(error){
-            console.log(error);
+            console.error(error);
             res.status(500).json({ message: `Error updating trabajaEn with id ${id}` });  
         }
 
