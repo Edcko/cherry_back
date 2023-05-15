@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { agendaController } from "../contollers/agenda.controllers.js";
-import { agendaService } from "../services/agenda.services.js";
+import { requiereRole } from "../middlewares/authorization.js";
 
 const router = Router()
 
@@ -8,10 +8,10 @@ const router = Router()
 router.get('/citas', agendaController.getCitas);
 
 //Ruta para obtener citas por ID
-router.get('/cita/:id', agendaController.getCitaById);
+router.get('/cita/:id', requiereRole("Admin"), agendaController.getCitaById);
 
 //Crear nueva cita
-router.post('/cita', agendaController.createCita);
+router.post('/cita',  agendaController.createCita);
 
 //Ruta para actualizar una cita
 router.put('/cita/:id', agendaController.updateCita);

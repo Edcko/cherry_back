@@ -1,12 +1,29 @@
-import { Agenda } from "../models/index.js";
-import { Empleado } from "../models/index.js";
-import { Cabina } from "../models/index.js";
+import { Agenda, Empleado, Cliente, Cabina, Sesion } from "../models/index.js";
 import { Op } from "sequelize";
 
 const agendaService = {
     
     async getAllCitas(){
-        return await Agenda.findAll();
+        return await Agenda.findAll({
+            include: [
+                {
+                    model: Empleado,
+                    attributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+                },
+                {
+                    model: Cliente,
+                    attributes: ["nombre_cliente", "apellido_paterno", "apellido_materno"],
+                },
+                {
+                    model: Cabina,
+                    attributes: ["estado_cabina"],
+                },
+                {
+                    model: Sesion,
+                    attributes: ["descripcion"],
+                },
+            ],
+        });
     },
 
     async getCitaById(id){

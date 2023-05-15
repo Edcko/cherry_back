@@ -8,7 +8,8 @@ Spa.init({
     id_spa: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true,
       },
       nombre_spa: {
         type: DataTypes.STRING(50),
