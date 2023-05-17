@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { db } from "../config/database.js";
-import { Empleado} from "./Empleado.js"; 
+import { Empleado } from "./Empleado.js"; 
 import { Cliente } from "./Cliente.js";
 import { Sesion } from "./Sesion.js";
 import { Cabina } from "./Cabina.js";
@@ -28,7 +28,6 @@ Agenda.init(
         model: Cabina,
         key: "id_cabina"
       }
-         
     },
     id_cliente: {
       type: DataTypes.INTEGER,
@@ -47,8 +46,18 @@ Agenda.init(
     fecha: {
       type: DataTypes.DATE,
     },
-    fecha_cancelacion: { type: DataTypes.DATE },
-    estado:{ type: DataTypes.TEXT}
+    fecha_cancelacion: {
+      type: DataTypes.DATE,
+    },
+    hora_inicio: {
+      type: DataTypes.TIME,
+    },
+    hora_fin: {
+      type: DataTypes.TIME,
+    },
+    estado: {
+      type: DataTypes.STRING(20),
+    },
   },
   {
     sequelize: db.sequelize,
