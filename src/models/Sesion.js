@@ -17,10 +17,6 @@ Sesion.init({
     type: DataTypes.TEXT,
     allowNull: false
     },
-    fecha: {
-    type: DataTypes.DATE,
-    allowNull: true
-    },
     fecha_cancelacion:{
     type: DataTypes.DATE,
     allowNull: true
