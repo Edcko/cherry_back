@@ -6,7 +6,7 @@ class Cliente extends Model{}
 Cliente.init({
     id_cliente: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
         primaryKey: true
     },
     nombre_cliente: {
