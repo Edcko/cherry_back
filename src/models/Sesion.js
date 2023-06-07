@@ -24,11 +24,6 @@ Sesion.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-<<<<<<< HEAD
-    fecha_cancelacion:{
-    type: DataTypes.DATE,
-    allowNull: true
-=======
 
     descripcion: {
       type: DataTypes.TEXT,
@@ -36,7 +31,6 @@ Sesion.init(
 
     duracion: {
       type: DataTypes.TIME,
->>>>>>> dev/implementacion-autenticacion
     }
   },
   {
