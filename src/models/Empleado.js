@@ -6,7 +6,7 @@ class Empleado extends Model{}
 Empleado.init({
     id_empleado: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
         primaryKey: true
     },
     nombre_empleado: {
