@@ -6,13 +6,8 @@ class Cliente extends Model{}
 Cliente.init({
     id_cliente: {
         type: DataTypes.INTEGER,
-<<<<<<< HEAD
-        primaryKey: true,
-        autoIncrement: true
-=======
         autoIncrement: true,
         primaryKey: true
->>>>>>> dev/implementacion-autenticacion
     },
     nombre_cliente: {
         type: DataTypes.STRING(80),
