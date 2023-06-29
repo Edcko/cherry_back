@@ -8,6 +8,8 @@ const jwtOptions = {
     secretOrKey: process.env.JWT_SECRET
 };
 
+console.log(process.env.JWT_SECRET); 
+
 const jwtLogin = new JwtStrategy(jwtOptions, async(payload, done) => {
     try{
         const empleado = await Empleado.findByPk(payload.id);
