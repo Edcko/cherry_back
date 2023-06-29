@@ -1,23 +1,24 @@
 import { Router } from "express";
+import passport from "passport";
 import { agendaController } from "../contollers/agenda.controllers.js";
 import { requiereRole } from "../middlewares/authorization.js";
 
 const router = Router()
 
 //Ruta para obtener todas las citas
-router.get('/citas', agendaController.getCitas);
+router.get('/citas', passport.authenticate("jwt", { session: false }), agendaController.getCitas);
 
 //Ruta para obtener citas por ID
-router.get('/cita/:id', requiereRole("Admin"), agendaController.getCitaById);
+router.get('/cita/:id', passport.authenticate("jwt", { session: false }), /*requiereRole("Admin"),*/ agendaController.getCitaById);
 
 //Crear nueva cita
-router.post('/cita',  agendaController.createCita);
+router.post('/cita', passport.authenticate("jwt", { session: false }), agendaController.createCita);
 
 //Ruta para actualizar una cita
-router.put('/cita/:id', agendaController.updateCita);
+router.put('/cita/:id', passport.authenticate("jwt", { session: false }), agendaController.updateCita);
 
 //Ruta para eliminar una cita
-router.delete('/cita/:id', agendaController.deleteCita);
+router.delete('/cita/:id', passport.authenticate("jwt", { session: false }), agendaController.deleteCita);
 
 //------------------------- rutas avanzadas -----------------------//
 

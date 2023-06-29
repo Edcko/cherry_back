@@ -8,7 +8,7 @@ const authService = {
       id: empleado.id_empleado,
       role: empleado.tipo_empleado,
     };
-    return jwt.sign(payload, "your_jwt_secret", { expiresIn: "1h" });
+    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
   },
 
   async authenticateEmpleado(email, password_empleado) {

@@ -5,7 +5,7 @@ import { Empleado } from "../models/index.js";
 const jwtOptions = {
 
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: "your_jwt_secret",
+    secretOrKey: process.env.JWT_SECRET
 };
 
 const jwtLogin = new JwtStrategy(jwtOptions, async(payload, done) => {
