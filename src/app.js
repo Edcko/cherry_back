@@ -7,10 +7,7 @@ import './config/passport.js';
 const app = express();
 
 // Configuracion de cors 
-app.use(cors({
-    origin: 'http://www.gpocherry.com',
-    optionsSuccessStatus: 200,
-})); //Habilita CORS para todas las rutas
+app.use(cors()); //Habilita CORS para todas las rutas
 
 
 // Configuracion del middleware para manejar soclicitudes con formato JSON
