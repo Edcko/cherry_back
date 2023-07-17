@@ -12,6 +12,7 @@ Empleado.belongsToMany(Spa, {through: TrabajaEn, foreignKey: 'id_empleado'});
 Spa.belongsToMany(Empleado,{through: TrabajaEn, foreignKey: 'id_spa'});
 
 // Relacion uno a muchos entre Spa - Cliente
+
 //Un Cliente pertenece a un Spa
 Cliente.belongsTo(Spa,{
     foreignKey: 'id_spa',
@@ -85,6 +86,52 @@ Agenda.belongsTo(Sesion, {
     onUpdate: 'cascade'
 
 });
+
+// Relación uno a muchos entre Paquete - Agenda
+// Un Paquete puede estar asociado a muchas citas
+Paquete.hasMany(Agenda, {
+    foreignKey: "id_paquete",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// Una cita solo puede estar asociada a un Paquete
+Agenda.belongsTo(Paquete, {
+    foreignKey: "id_paquete",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// Relación uno a muchos entre Paquete - Sesion
+// Un Paquete puede contener muchas sesiones
+Paquete.hasMany(Sesion, {
+    foreignKey: "id_paquete",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// Una Sesion puede estar contenida en un solo Paquete
+Sesion.belongsTo(Paquete, {
+    foreignKey: "id_paquete",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// Relacion uno a muchos entre Cabina - Empleado
+// una cabina es atendida por un solo empleado
+Cabina.belongsTo(Empleado, {
+    foreignKey: 'id_empleado',
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// un empleado puede atender varias cabinas
+Empleado.hasMany(Cabina, {
+    foreignKey: 'id_empleado',
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
 
 //Exportar modelos
 export { Spa, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina };

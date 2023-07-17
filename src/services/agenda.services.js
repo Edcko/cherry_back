@@ -1,4 +1,4 @@
-import { Agenda, Empleado, Cliente, Cabina, Sesion } from "../models/index.js";
+import { Agenda, Empleado, Cliente, Cabina, Sesion, Paquete } from "../models/index.js";
 import { Op } from "sequelize";
 
 const agendaService = {
@@ -16,7 +16,15 @@ const agendaService = {
                 },
                 {
                     model: Cabina,
-                    attributes: ["estado_cabina"],
+                    attributes: ["numero_cabina","turno","estado_cabina"],
+                    include: [{
+                        model: Empleado,
+                        attributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+                    }],
+                },
+                {
+                   model: Paquete,
+                   attributes: ["nombre_paquete"],
                 },
                 {
                     model: Sesion,

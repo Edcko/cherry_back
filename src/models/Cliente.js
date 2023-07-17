@@ -27,15 +27,15 @@ Cliente.init({
     },
     email: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true
     },
     telefono_cliente:{
         type: DataTypes.STRING(12),
-        allowNull: false
+        allowNull: true
     },
     fecha_nacimiento: {
         type: DataTypes.STRING(15),
-        allowNull: false
+        allowNull: true
     },
     sexo: {
        type: DataTypes.STRING(1),
