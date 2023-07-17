@@ -30,10 +30,10 @@ Paquete.init({
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    id_empleado: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    }
+//    id_empleado: {
+//        type: DataTypes.INTEGER,
+//        allowNull: false
+//    }
 }, {
     sequelize: db.sequelize,
     modelName: 'Paquete',
