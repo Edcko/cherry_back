@@ -48,7 +48,7 @@ Empleado.init({
     },
     fecha_contratacion:{
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: true
     }
     
  }, 

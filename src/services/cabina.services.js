@@ -1,13 +1,29 @@
-import { Cabina } from "../models/index.js";
+import { Cabina, Empleado } from "../models/index.js";
 
 const cabinaService = {
-  async getAllCabinas() {
-    return await Cabina.findAll();
-  },
 
-  async getCabinaById(id) {
-    return await Cabina.findByPk(id);
-  },
+  async getAllCabinas() {
+    return await Cabina.findAll({
+        include: [
+            {
+                model: Empleado,
+                atributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+            },
+        ],
+    });
+},
+
+
+async getCabinaById(id) {
+  return await Cabina.findByPk(id, {
+      include: [
+          {
+              model: Empleado,
+              atributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+          },
+      ],
+  });
+},
 
   async createCabina(data) {
     return await Cabina.create(data);

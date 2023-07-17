@@ -4,6 +4,7 @@ import { Empleado } from "./Empleado.js";
 import { Cliente } from "./Cliente.js";
 import { Sesion } from "./Sesion.js";
 import { Cabina } from "./Cabina.js";
+import { Paquete } from "./Paquete.js";
 
 class Agenda extends Model {}
 
@@ -58,6 +59,14 @@ Agenda.init(
     estado: {
       type: DataTypes.STRING(20),
     },
+    id_paquete: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Paquete,
+        key: "id_paquete",
+      },
+    }
+
   },
   {
     sequelize: db.sequelize,

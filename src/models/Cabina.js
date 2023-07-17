@@ -31,6 +31,10 @@ Cabina.init(
             },
 
         },
+        turno:{
+            type: DataTypes.TEXT(),
+            allowNull: false,
+        },
 
     },
     {

@@ -6,8 +6,8 @@ class Paquete extends Model{}
 Paquete.init({
     id_paquete:{
         type: DataTypes.INTEGER,
-        allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
     },
     nombre_paquete: {
         type: DataTypes.STRING(50),
@@ -34,6 +34,14 @@ Paquete.init({
 //        type: DataTypes.INTEGER,
 //        allowNull: false
 //    }
+//    id_empleado: {
+//        type: DataTypes.INTEGER,
+//        allowNull: false
+//    }
+    estado_paquete: {
+        type: DataTypes.TEXT(),
+        allowNull: false
+    },
 }, {
     sequelize: db.sequelize,
     modelName: 'Paquete',
