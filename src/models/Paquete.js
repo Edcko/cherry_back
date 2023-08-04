@@ -30,18 +30,14 @@ Paquete.init({
         type: DataTypes.INTEGER,
         allowNull: false
     },
-//    id_empleado: {
-//        type: DataTypes.INTEGER,
-//        allowNull: false
-//    }
-//    id_empleado: {
-//        type: DataTypes.INTEGER,
-//        allowNull: false
-//    }
     estado_paquete: {
         type: DataTypes.TEXT(),
         allowNull: false
     },
+    imagen_paquete: {
+        type: DataTypes.STRING(152),
+        allowNull: false,
+    }
 }, {
     sequelize: db.sequelize,
     modelName: 'Paquete',

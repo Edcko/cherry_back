@@ -8,7 +8,7 @@ const authService = {
       id: empleado.id_empleado,
       role: empleado.tipo_empleado,
     };
-    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
+    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2h" });
   },
 
   async authenticateEmpleado(email, password_empleado) {
@@ -35,6 +35,16 @@ const authService = {
     }
     return empleado;
   },
+
+  async getEmpleadoById(id) {
+    try {
+        const empleado = await Empleado.findOne({ where: { id_empleado: id } });
+        return empleado;
+    } catch (error) {
+        console.error(error);
+    }
+},
+
 };
 
 export { authService };

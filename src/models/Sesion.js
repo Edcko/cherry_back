@@ -1,7 +1,6 @@
 import { db } from "../config/database.js";
 import { DataTypes, Model } from "sequelize";
 import { Empleado } from "./Empleado.js";
-import { Paquete } from "./Paquete.js";
 
 class Sesion extends Model {}
 
@@ -33,13 +32,6 @@ Sesion.init(
     duracion: {
       type: DataTypes.TIME,
     },
-    id_paquete: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Paquete,
-        key: "id_paquete",
-      }
-    }
   },
   {
     sequelize: db.sequelize,
