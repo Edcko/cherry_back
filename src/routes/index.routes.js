@@ -6,6 +6,7 @@ import paqueteRoutes from "./paquete.routes.js";
 import sesionRoutes from "./sesion.routes.js";
 import trabajaEnRoutes from "./trabaja_en.routes.js";
 import agendaRoutes from "./agenda.routes.js";
+import compraRoutes from "./compra.routes.js";
 import cabinaRoutes from "./cabina.routes.js"
 import authRoutes from "./auth.routes.js";
 //import passport from "passport";
@@ -23,6 +24,7 @@ router.use(cabinaRoutes);
 
 // Autenticacion y autorizacion
 router.use(agendaRoutes);
+router.use(compraRoutes);
 router.use(empleadoRoutes);
 
 export default router;

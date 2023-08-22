@@ -5,6 +5,7 @@ import { Sesion } from "./Sesion.js";
 import { Cliente } from "./Cliente.js";
 import { Paquete } from "./Paquete.js";
 import { Agenda } from "./Agenda.js";
+import { Compra } from "./Compra.js";
 import { Cabina } from "./Cabina.js";
 
 // Relacion muchos a muchos entre las relaciones Spa - Empleado con la tabla intermedia TrabajaEn
@@ -133,5 +134,39 @@ Empleado.hasMany(Cabina, {
 });
 
 
+// Relacion uno a muchos entre Cliente - Compra
+
+// Un Cliente puede hacer muchas Compras
+Cliente.hasMany(Compra, {
+    foreignKey: "id_cliente",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// Cada Compra pertenece a un Cliente
+Compra.belongsTo(Cliente, {
+    foreignKey: "id_cliente",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// Relacion uno a muchos entre Paquete - Compra
+
+// Un Paquete puede estar asociado a muchas Compras
+Paquete.hasMany(Compra, {
+    foreignKey: "id_paquete",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// Cada Compra está asociada a un Paquete
+Compra.belongsTo(Paquete, {
+    foreignKey: "id_paquete",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+
+
 //Exportar modelos
-export { Spa, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina };
+export { Spa, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra };
