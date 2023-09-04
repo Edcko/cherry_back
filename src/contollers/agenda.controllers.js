@@ -1,5 +1,7 @@
 import { Agenda } from "../models/Agenda.js";
+import { Cabina } from "../models/Cabina.js";
 import { agendaService } from "../services/agenda.services.js";
+
 
 const agendaController = {
 
@@ -29,15 +31,41 @@ const agendaController = {
             res.status(500).json({ message: `error retrieving sesion with ida ${id}` });
         }
     },
-    async createCita(req, res){
-        try{
+
+    async createCita(req, res) {
+        try {
+            const { fecha, id_cabina } = req.body;
+    
+            // Obtener el número de cabina de la cabina seleccionada
+            const cabinaSelected = await Cabina.findOne({ where: { id_cabina: id_cabina } });
+            const { numero_cabina } = cabinaSelected;
+    
+            // Verificar si ya existe una cita con la misma fecha y número de cabina, sin considerar el turno
+            const existingCita = await Agenda.findOne({
+                include: [{
+                    model: Cabina,
+                    where: {
+                        numero_cabina: numero_cabina
+                    }
+                }],
+                where: {
+                    fecha: fecha
+                }
+            });
+    
+            if (existingCita) {
+                return res.status(400).json({ message: 'Ya existe una cita agendada para esa fecha y número de cabina.' });
+            }
+    
             const newCita = await agendaService.createCita(req.body);
             res.status(201).json(newCita);
-        }catch(error){
+        } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Error creating cita' });
         }
-    },
+    },    
+    
+    
 
     async updateCita(req,res){
         const { id } = req.params;
