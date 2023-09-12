@@ -65,7 +65,11 @@ Agenda.init(
         model: Paquete,
         key: "id_paquete",
       },
-    }
+    },
+    numero_visita:{
+      type: DataTypes.INTEGER,
+
+    },
 
   },
   {

@@ -9,6 +9,7 @@ import agendaRoutes from "./agenda.routes.js";
 import compraRoutes from "./compra.routes.js";
 import cabinaRoutes from "./cabina.routes.js"
 import authRoutes from "./auth.routes.js";
+import valoracionRoutes from "./valoracion.routes.js";
 //import passport from "passport";
 
 const router = Router();
@@ -25,6 +26,7 @@ router.use(cabinaRoutes);
 // Autenticacion y autorizacion
 router.use(agendaRoutes);
 router.use(compraRoutes);
+router.use(valoracionRoutes);
 router.use(empleadoRoutes);
 
 export default router;

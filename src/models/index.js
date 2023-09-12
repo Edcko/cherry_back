@@ -7,6 +7,8 @@ import { Paquete } from "./Paquete.js";
 import { Agenda } from "./Agenda.js";
 import { Compra } from "./Compra.js";
 import { Cabina } from "./Cabina.js";
+import { Valoracion } from "./Valoracion.js";
+import { FeedbackValoracion } from "./Feedback_valoracion.js";
 
 // Relacion muchos a muchos entre las relaciones Spa - Empleado con la tabla intermedia TrabajaEn
 Empleado.belongsToMany(Spa, {through: TrabajaEn, foreignKey: 'id_empleado'});
@@ -167,6 +169,44 @@ Compra.belongsTo(Paquete, {
 });
 
 
+// Relación uno a uno entre Cliente y Valoracion (esto ya está correcto)
+Cliente.hasOne(Valoracion, {
+    foreignKey: "id_cliente",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+Valoracion.belongsTo(Cliente, {
+    foreignKey: "id_cliente",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// Relación uno a uno entre Valoracion y FeedbackValoracion
+Valoracion.hasOne(FeedbackValoracion, {
+    foreignKey: "id_valoracion",
+    onDelete: 'cascade',
+    onUpdate: 'cascade'
+});
+
+FeedbackValoracion.belongsTo(Valoracion, {
+    foreignKey: "id_valoracion",
+    onDelete: 'cascade',
+    onUpdate: 'cascade'
+});
+
+// Relación uno a muchos entre Valoracion y Paquete
+Valoracion.hasMany(Paquete, {
+    foreignKey: "id_valoracion",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+Paquete.belongsTo(Valoracion, {
+    foreignKey: "id_valoracion",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
 
 //Exportar modelos
-export { Spa, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra };
+export { Spa, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra, Valoracion, FeedbackValoracion };

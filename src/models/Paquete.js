@@ -37,7 +37,13 @@ Paquete.init({
     imagen_paquete: {
         type: DataTypes.STRING(152),
         allowNull: false,
-    }
+    },
+    numero_visitas: {
+        type: DataTypes.INTEGER,
+    },
+    numero_zonas_cuerpo: {
+        type: DataTypes.INTEGER,
+    },
 }, {
     sequelize: db.sequelize,
     modelName: 'Paquete',
