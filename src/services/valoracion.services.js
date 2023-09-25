@@ -1,9 +1,30 @@
-import { Valoracion } from "../models/Valoracion.js";
+import { Valoracion, Cliente, Empleado, Cabina, Paquete  } from "../models/index.js";
 
 const valoracionService = {
     async getAllValoraciones(){
         return await Valoracion.findAll({
-            
+            include: [
+                {
+                    model: Empleado,
+                    attributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+                },
+                {
+                    model: Cliente,
+                    attributes: ["nombre_cliente", "apellido_paterno", "apellido_materno"],
+                },
+                {
+                    model: Cabina,
+                    attributes: ["numero_cabina","turno","estado_cabina"],
+                    include: [{
+                        model: Empleado,
+                        attributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+                    }],
+                },
+                {
+                   model: Paquete,
+                   attributes: ["nombre_paquete"],
+                },
+            ]
         });
     },
     async getValoracionById(id){

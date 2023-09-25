@@ -1,6 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import { db } from "../config/database.js";
 import { Cliente } from "./Cliente.js";
+import { Empleado } from "./Empleado.js";
+import { Cabina } from "./Cabina.js";
 import { Paquete } from "./Paquete.js";
 
 class Valoracion extends Model {}
@@ -19,9 +21,29 @@ Valoracion.init(
         key: "id_cliente",
       },
     },
+    id_empleado: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Empleado,
+        key: "id_empleado",
+      },
+    },
+    id_cabina: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Cabina,
+        key: "id_cabina",
+      },
+    },
     fecha_valoracion: {
       type: DataTypes.DATE,
       allowNull: false,
+    },
+    fecha_cancelacion: {
+      type: DataTypes.DATE,
+    },
+    estado: {
+      type: DataTypes.STRING(20),
     },
     observaciones: {
       type: DataTypes.TEXT,

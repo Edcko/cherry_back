@@ -208,5 +208,29 @@ Paquete.belongsTo(Valoracion, {
     onUpdate: 'cascade'
 });
 
+// Relación uno a muchos entre Empleado y Valoracion
+Empleado.hasMany(Valoracion, {
+    foreignKey: "id_empleado",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+Valoracion.belongsTo(Empleado, {
+    foreignKey: "id_empleado",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// Relación uno a muchos entre Cabina y Valoracion
+Cabina.hasMany(Valoracion, {
+    foreignKey: "id_cabina",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+Valoracion.belongsTo(Cabina, {
+    foreignKey: "id_cabina",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
 //Exportar modelos
 export { Spa, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra, Valoracion, FeedbackValoracion };
