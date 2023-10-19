@@ -5,15 +5,21 @@ import { agendaService } from "../services/agenda.services.js";
 
 const agendaController = {
 
-    async getCitas(req, res){
-        try{
-        const citas = await agendaService.getAllCitas();
-        res.status(200).json(citas);
-        }catch(error){
+    async getCitas(req, res) {
+        try {
+            // Recuperar fechas desde los parámetros de la consulta
+            const { startDate, endDate } = req.query;
+    
+            const citas = startDate && endDate 
+                ? await agendaService.getCitasByDateRange(startDate, endDate) 
+                : await agendaService.getAllCitas();
+    
+            res.status(200).json(citas);
+        } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Server error' });
         }
-    },
+    },    
 
     async getCitaById(req, res){
         const { id } =  req.params;
