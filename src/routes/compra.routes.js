@@ -8,17 +8,17 @@ const router = Router();
 // Ruta para obtener todas las compras
 router.get('/compras', passport.authenticate("jwt", { session: false }), compraController.getCompras);
 
-// Ruta para obtener compras por IDs (clienteId y paqueteId)
-router.get('/compra/:clienteId/:paqueteId', passport.authenticate("jwt", { session: false }), /*requiereRole("Admin"),*/ compraController.getCompraByIds);
+// Ruta para obtener compras por id_compra
+router.get('/compra/:id', passport.authenticate("jwt", { session: false }), compraController.getCompraById);
 
 // Ruta para crear una nueva compra
 router.post('/compra', passport.authenticate("jwt", { session: false }), compraController.createCompra);
 
 // Ruta para actualizar una compra
-router.put('/compra/:clienteId/:paqueteId', passport.authenticate("jwt", { session: false }), compraController.updateCompra);
+router.put('/compra/:id', passport.authenticate("jwt", { session: false }), compraController.updateCompra);
 
 // Ruta para eliminar una compra
-router.delete('/compra/:clienteId/:paqueteId', passport.authenticate("jwt", { session: false }), compraController.deleteCompra);
+router.delete('/compra/:id', passport.authenticate("jwt", { session: false }), compraController.deleteCompra);
 
 //------------------------- rutas avanzadas -----------------------//
 

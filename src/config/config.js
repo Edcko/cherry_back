@@ -5,7 +5,7 @@ export const config = {
        port: 5432,
        username: 'misael',
        password: 'rosas',
-       database: 'cherrys',
+       database: 'cherry',
        logging: true
     },
     production:{

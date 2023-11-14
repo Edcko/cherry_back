@@ -12,22 +12,23 @@ const compraController = {
         }
     },
 
-    async getCompraByIds(req, res){
-        const { clienteId, paqueteId } =  req.params;
+    async getCompraById(req, res){
+        const { id } =  req.params;
 
         try{
-            const compra = await compraService.getCompraByIds(clienteId, paqueteId);
+            const compra = await compraService.getCompraById(id);
 
             if(!compra){
-                res.status(404).json({ message: `Compra for clienteId ${clienteId} and paqueteId ${paqueteId} not found` });
+                res.status(404).json({ message: `Compra with id ${id} not found` });
             } else {
                 res.status(200).json(compra);
             }
         } catch(error){
             console.error(error);
-            res.status(500).json({ message: `Error retrieving compra with clienteId ${clienteId} and paqueteId ${paqueteId}` });
+            res.status(500).json({ message: `Error retrieving compra with id ${id}` });
         }
     },
+
     
     async createCompra(req, res){
         try{
@@ -40,39 +41,38 @@ const compraController = {
     },
 
     async updateCompra(req,res){
-        const { clienteId, paqueteId } = req.params;
+        const { id } = req.params;
 
         try{
-            const updatedCompra = await compraService.updateCompra(clienteId, paqueteId, req.body);
+            const updatedCompra = await compraService.updateCompra(id, req.body);
 
             if(!updatedCompra){
-                res.status(404).json({ message: `Compra for clienteId ${clienteId} and paqueteId ${paqueteId} not found` });
+                res.status(404).json({ message: `Compra with id ${id} not found` });
             }else{
                 res.status(200).json(updatedCompra);
             }
         }catch(error){
             console.error(error);
-            res.status(500).json({ message: `Error updating compra with clienteId ${clienteId} and paqueteId ${paqueteId}` });
+            res.status(500).json({ message: `Error updating compra with id ${id}` });
         }
     },
 
     async deleteCompra(req,res){
-        const { clienteId, paqueteId } = req.params;
+        const { id } = req.params;
 
         try{
-            const deletedCompra = await compraService.deleteCompra(clienteId, paqueteId);
+            const deletedCompra = await compraService.deleteCompra(id);
 
             if(!deletedCompra){
-                res.status(404).json({ message: `Compra for clienteId ${clienteId} and paqueteId ${paqueteId} not found` });
+                res.status(404).json({ message: `Compra with id ${id} not found` });
             }else{
                 res.status(204).send();
             }
 
         }catch(error){
             console.error(error);
-            res.status(500).json({ message: `Error deleting compra with clienteId ${clienteId} and paqueteId ${paqueteId}`});
+            res.status(500).json({ message: `Error deleting compra with id ${id}`});
         }
-
     },
 
     async comprasByClienteId(req,res){
