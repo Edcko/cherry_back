@@ -12,6 +12,27 @@ const valoracionController = {
         }
     },
 
+    async getValoracionesByDateRange(req, res){
+        try{
+            const { startDate, endDate } = req.query;
+            const valoraciones = await valoracionService.getValoracionesByDateRange(startDate, endDate);
+            res.status(200).json(valoraciones);
+        } catch(error){
+            console.error(error);
+            res.status(500).json({ message: 'Server error' });
+        }
+    },    
+
+    async searchValoraciones(req, res){
+        try {
+            const { keyword, fecha } = req.query;
+            const valoraciones = await valoracionService.searchValoraciones({keyword, fecha});
+            res.status(200).json(valoraciones);
+        } catch (error) {
+            res.status(500).json({ message: 'Error en la búsqueda de valoraciones', error });
+        }
+    },
+
     async getValoracionById(req, res){
         const { id } =  req.params;
 

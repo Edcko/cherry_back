@@ -27,6 +27,7 @@ const valoracionService = {
             ]
         });
     },
+
     async getValoracionById(id){
         return await Valoracion.findByPk(id);
     },
@@ -47,6 +48,48 @@ const valoracionService = {
             await valoracion.destroy();
         }
         return valoracion;
+    },
+
+    async getValoracionesByDateRange(starDate, endDate){
+        return await Valoracion.findAll({
+            where: {
+                fecha_valoracion: {
+                    [Op.between]: [starDate, endDate],
+                },
+            },
+        });
+    },
+
+    async searchValoraciones({ keyword, fecha }) {
+        // Condición inicial
+        const conditions = [];
+    
+        // Agregar condiciones basadas en el keyword si este está presente
+        if (keyword) {
+            conditions.push({
+                [Op.or]: [
+                    { '$Cliente.nombre_cliente$': { [Op.like]: `%${keyword}%` } },
+                    { '$Cliente.apellido_paterno$': { [Op.like]: `%${keyword}%` } },
+                    { '$Cliente.apellido_materno$': { [Op.like]: `%${keyword}%` } }
+                ]
+            });
+        }
+    
+        // Agregar condición basada en la fecha si esta está presente
+        if (fecha) {
+            conditions.push(Sequelize.where(Sequelize.fn('DATE', Sequelize.col('fecha_valoracion')), '=', fecha));
+        }
+    
+        // Realizar la consulta con las condiciones acumuladas
+        return await Valoracion.findAll({
+            where: {
+                [Op.and]: conditions
+            },
+        });
     }
+    
+    
+
+
 }
 export { valoracionService };

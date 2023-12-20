@@ -7,6 +7,8 @@ const router = Router();
 
 // Rutas básicas
 router.get('/valoraciones', passport.authenticate("jwt", { session: false }), valoracionController.getValoraciones);
+router.get('/valoraciones/daterange', passport.authenticate("jwt", { session: false }), valoracionController.getValoracionesByDateRange);
+router.get('/valoraciones/search', passport.authenticate("jwt", { session: false }), valoracionController.searchValoraciones);
 router.get('/valoracion/:id', passport.authenticate("jwt", { session: false }), valoracionController.getValoracionById);
 router.post('/valoracion', passport.authenticate("jwt", { session: false }), valoracionController.createValoracion);
 router.put('/valoracion/:id', passport.authenticate("jwt", { session: false }), valoracionController.updateValoracion);

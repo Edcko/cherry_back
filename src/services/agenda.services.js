@@ -94,12 +94,38 @@ const agendaService = {
         return await Agenda.findAll({
             where: {
                 fecha: {
-                    [Op.between]: [startDate, endDate],
-                },
+                    [Op.between]: [startDate, endDate]
+                }
             },
+            include: [
+                {
+                    model: Empleado,
+                    attributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+                },
+                {
+                    model: Cliente,
+                    attributes: ["nombre_cliente", "apellido_paterno", "apellido_materno"],
+                },
+                {
+                    model: Cabina,
+                    attributes: ["numero_cabina", "turno", "estado_cabina"],
+                    include: [{
+                        model: Empleado,
+                        attributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+                    }],
+                },
+                {
+                    model: Paquete,
+                    attributes: ["nombre_paquete"],
+                },
+                {
+                    model: Sesion,
+                    attributes: ["descripcion"],
+                },
+            ],
         });
-
-    },
+    }
+    
 
 }
 
