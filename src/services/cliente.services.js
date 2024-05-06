@@ -2,8 +2,14 @@ import { Cliente, Spa } from "../models/index.js";
 
 const clienteService = {
 
-   async getAllClientes() {
-        return await Cliente.findAll();
+   async getAllClientes(idSpa) {
+        return await Cliente.findAll({
+            where: {id_spa: idSpa},
+            include: [{
+                model: Spa,
+                attributes: ["nombre_spa", "ciudad", "calle", "colonia", "codigo_postal", "telefono"],
+            }],
+        });
     },
 
    async getClienteById(id){

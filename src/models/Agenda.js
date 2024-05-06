@@ -5,6 +5,7 @@ import { Cliente } from "./Cliente.js";
 import { Sesion } from "./Sesion.js";
 import { Cabina } from "./Cabina.js";
 import { Paquete } from "./Paquete.js";
+import { Spa } from "./Spa.js";
 
 class Agenda extends Model {}
 
@@ -44,6 +45,13 @@ Agenda.init(
         key: "id_sesion",
       },
     },
+    id_spa: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Spa,
+        key: "id_spa",
+      },
+    },
     fecha: {
       type: DataTypes.DATE,
     },
@@ -69,6 +77,9 @@ Agenda.init(
     numero_visita:{
       type: DataTypes.INTEGER,
 
+    },
+    tipo_cita: {
+      type: DataTypes.STRING(35),
     },
 
   },

@@ -13,6 +13,25 @@ const trabajaEnController = {
         }
     },
 
+    async getTrabajanEnBySpa(req,res){
+        const { id } = req.params;
+
+        try{
+            const trabajanEn = await trabajaEnService.getTrabajanEnBySpa(id);
+
+            if(!trabajanEn){
+                res.status(404).json({ message: `TrabajaEn with spa id ${id} not found` });
+            }else{
+                res.status(200).json(trabajanEn);
+            }
+
+        }catch(error){
+            console.error(error);
+            res.status(500).json({ message: `Error retrieving trabajaEn with spa id ${id}` });
+        }
+
+    },
+
     async getTrabajaEnById(req,res){
         const { id } = req.params;
 
@@ -20,7 +39,7 @@ const trabajaEnController = {
             const trabajaEn = await trabajaEnService.getTrabajaEnById(id);
 
             if(!trabajaEn){
-                res.status(404).json({ message: `Paquete with id ${id} not found` });
+                res.status(404).json({ message: `TrabajaEn with id ${id} not found` });
             }else{
                 res.status(200).json(trabajaEn);
             }

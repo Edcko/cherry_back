@@ -22,8 +22,11 @@ router.delete('/cita/:id', passport.authenticate("jwt", { session: false }), age
 
 //------------------------- rutas avanzadas -----------------------//
 
-//Ruta para obtener citas asignadas a un empleado
+//Ruta para obtener citas asignadas a un empleado por id
 router.get('/citas/empleado/:id', agendaController.citasByEmpleado);
+
+//Ruta para obtener citas asignadas a un empleado por nombre
+router.get('/citas/cliente/:nombre', agendaController.citasByClienteNombre);
 
 //Ruta para obtener las citas asignadas a una cabina
 router.get('/citas/cabina/:id', agendaController.citasByCabina);
@@ -42,4 +45,8 @@ router.get('/citas/sesion/:id', agendaController.citasBySesion);
 
 //Ruta para obtener citas en un rango de fechas especifico
 router.get('/citas/daterange', agendaController.citasByDateRange);
+
+//Ruta para obtener las citas de una fecha especifica
+router.get('/citas/date/fecha', agendaController.citasByDate);
+
 export default router;

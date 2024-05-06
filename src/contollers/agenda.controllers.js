@@ -7,20 +7,24 @@ const agendaController = {
 
     async getCitas(req, res) {
         try {
-            // Recuperar fechas desde los parámetros de la consulta
-            const { startDate, endDate } = req.query;
+            const idSpa = req.query.idSpa;  // Extraer id_spa del query
     
+            if (!idSpa) {
+                return res.status(400).json({ message: "id_spa parameter is required" });
+            }
+    
+            const { startDate, endDate } = req.query;
             const citas = startDate && endDate 
-                ? await agendaService.getCitasByDateRange(startDate, endDate) 
-                : await agendaService.getAllCitas();
+                ? await agendaService.getCitasByDateRange(idSpa, startDate, endDate)
+                : await agendaService.getAllCitas(idSpa);
     
             res.status(200).json(citas);
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Server error' });
         }
-    },    
-
+    },
+    
     async getCitaById(req, res){
         const { id } =  req.params;
 
@@ -40,7 +44,7 @@ const agendaController = {
 
     async createCita(req, res) {
         try {
-            const { fecha, id_cabina } = req.body;
+            const { fecha, id_cabina, id_spa } = req.body;
     
             // Obtener el número de cabina de la cabina seleccionada
             const cabinaSelected = await Cabina.findOne({ where: { id_cabina: id_cabina } });
@@ -51,7 +55,8 @@ const agendaController = {
                 include: [{
                     model: Cabina,
                     where: {
-                        numero_cabina: numero_cabina
+                        numero_cabina: numero_cabina,
+                        id_spa: id_spa,
                     }
                 }],
                 where: {
@@ -145,6 +150,17 @@ const agendaController = {
         }
     },
 
+    async citasByClienteNombre(req, res){
+        try{
+            const nombreCliente = req.params.nombre;
+            const citas = await agendaService.getCitasByClienteNombre(nombreCliente);
+            res.status(200).json(citas);
+        }catch(error){
+            console.error(error);
+            res.status(500).json({ message: `Server error` });
+    }
+},
+
     async cabinaByCita(req, res){
 
         try{
@@ -188,6 +204,31 @@ const agendaController = {
         const citas = await agendaService.getCitasByDateRange(startDate, endDate);
         res.status(200).json(citas);
     },
+
+    async citasByDate(req,res){
+        const { fecha } = req.query;
+    console.log(fecha);
+    
+    // Convertir fecha a objetos Date
+    const startDate = new Date(fecha);
+    startDate.setUTCHours(0, 0, 0, 0); // Establecer a las 00:00:00 UTC
+    startDate.setDate(startDate.getDate() + 1); // Sumar un día a la fecha de inicio
+
+    
+    const endDate = new Date(fecha);
+    endDate.setUTCHours(23, 59, 59, 999); // Establecer a las 23:59:59 UTC
+    
+    // Formatear manualmente las fechas como cadenas en el formato deseado (YYYY-MM-DD HH:MM:SS)
+    const startDateString = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')} 00:00:00`;
+    const endDateString = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')} 23:59:59`;
+    
+    console.log('1.-', startDateString);
+    console.log(endDateString);
+    
+    // Llamar al servicio con las cadenas de fecha formateadas manualmente
+    const citas = await agendaService.getCitasByDateRange(startDateString, endDateString);
+    res.status(200).json(citas);
+    }
 
     
 }

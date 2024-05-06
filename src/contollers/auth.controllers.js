@@ -18,7 +18,10 @@ const authController = {
                 return res.status(401).json({ message: "Invalid email or password"});
             }
             const token = authService.generateTokenForEmpleado(empleado);
-            res.status(200).json({
+
+             // Asumiendo que 'TrabajaEn' y 'Spa' están incluidos en la respuesta de 'empleado'
+             const trabajo = empleado.Trabaja_ens && empleado.Trabaja_ens[0] ? empleado.Trabaja_ens[0] : null;
+             res.status(200).json({
                 id_empleado: empleado.id_empleado,
                 token: token,
                 tipo_empleado: empleado.tipo_empleado,
@@ -26,6 +29,9 @@ const authController = {
                 apellido_paterno: empleado.apellido_paterno,
                 apellido_materno: empleado.apellido_materno,
                 email: empleado.email,
+                id_spa: trabajo && trabajo.Spa ? trabajo.Spa.id_spa : null,
+                nombre_spa: trabajo && trabajo.Spa ? trabajo.Spa.nombre_spa : null,
+                ciudad: trabajo && trabajo.Spa ? trabajo.Spa.ciudad : null,
 
 
             });

@@ -7,6 +7,9 @@ const router = Router()
 //Ruta para obtener todos
 router.get('/trabajanEn', passport.authenticate("jwt", { session: false }), trabajaEnController.getTrabajanEn);
 
+//Ruta para obtener por ID de spa
+router.get('/trabajanEn/:id', passport.authenticate("jwt", { session: false }), trabajaEnController.getTrabajanEnBySpa);
+
 //Ruta para obtener por ID
 router.get('/trabajaEn/:id', passport.authenticate("jwt", { session: false }), trabajaEnController.getTrabajaEnById);
 

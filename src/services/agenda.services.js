@@ -1,10 +1,11 @@
-import { Agenda, Empleado, Cliente, Cabina, Sesion, Paquete } from "../models/index.js";
+import { Agenda, Empleado, Cliente, Cabina, Sesion, Paquete, Spa } from "../models/index.js";
 import { Op } from "sequelize";
 
 const agendaService = {
     
-    async getAllCitas(){
+    async getAllCitas(idSpa){
         return await Agenda.findAll({
+            where: { id_spa: idSpa},
             include: [
                 {
                     model: Empleado,
@@ -29,6 +30,10 @@ const agendaService = {
                 {
                     model: Sesion,
                     attributes: ["descripcion"],
+                },
+                {
+                    model: Spa,
+                    attributes: ["nombre_spa", "ciudad", "calle", "colonia", "codigo_postal", "telefono"],
                 },
             ],
         });
@@ -76,6 +81,15 @@ const agendaService = {
         });
     },
 
+    async getCitasByClienteNombre(nombre_cliente) {
+      return await Agenda.findAll({
+        include: [{
+            model: Cliente,
+            where: { nombre_cliente: nombre_cliente }
+        }]
+    });
+},
+
     async getCabinaByCitaId(citaId){
         return await Cabina.findOne({
             include: { model: Agenda, where: { id_cita: citaId } },
@@ -90,12 +104,59 @@ const agendaService = {
         return await Agenda.findAll({ where: { id_sesion: sesionId } });
     },
 
-    async getCitasByDateRange(startDate, endDate){
+    async getCitasByDateRange(idSpa, startDate, endDate){
         return await Agenda.findAll({
             where: {
+                id_spa: idSpa,  // Asegurando que solo se recuperen citas del spa correcto
                 fecha: {
-                    [Op.between]: [startDate, endDate]
+                    [Op.between]: [startDate, endDate] // Filtrando por rango de fechas
                 }
+            },
+            include: [
+                {
+                    model: Empleado,
+                    attributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+                },
+                {
+                    model: Cliente,
+                    attributes: ["nombre_cliente", "apellido_paterno", "apellido_materno"],
+                },
+                {
+                    model: Cabina,
+                    attributes: ["numero_cabina", "turno", "estado_cabina"],
+                    include: [{
+                        model: Empleado,
+                        attributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+                    }],
+                },
+                    
+                {
+                    model: Paquete,
+                    attributes: ["nombre_paquete"],
+                },
+                {
+                    model: Sesion,
+                    attributes: ["descripcion"],
+                },
+                {
+                    model: Spa,
+                    attributes: ["nombre_spa", "ciudad", "calle", "colonia", "codigo_postal", "telefono"],
+                },    
+            ],
+        });
+    },
+
+    async getCitasByDate(fecha){
+        const startOfDay = new Date(fecha);
+        startOfDay.setHours(0, 0, 0, 0); // Establece la hora al inicio del día
+    
+        const endOfDay = new Date(fecha);
+        endOfDay.setHours(23, 59, 59, 999); // Establece la hora al final del día
+    
+
+        return await Agenda.findAll({
+            where: {
+                fecha: fecha
             },
             include: [
                 {
@@ -125,7 +186,6 @@ const agendaService = {
             ],
         });
     }
-    
 
 }
 

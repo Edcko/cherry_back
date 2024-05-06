@@ -44,7 +44,22 @@ Cliente.init({
     id_spa:{
         type: DataTypes.INTEGER,
         allowNull: false,        
-    }, 
+    },
+    
+    es_cliente: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
+    },
+
+    como_se_entero: {
+        type: DataTypes.STRING(50),
+        allowNull: true
+    },
+
+    tipo_valoracion: {
+        type: DataTypes.STRING(50),
+        allowNull: true
+    },
 
 }, {
     sequelize: db.sequelize,

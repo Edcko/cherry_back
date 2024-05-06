@@ -14,6 +14,14 @@ import { FeedbackValoracion } from "./Feedback_valoracion.js";
 Empleado.belongsToMany(Spa, {through: TrabajaEn, foreignKey: 'id_empleado'});
 Spa.belongsToMany(Empleado,{through: TrabajaEn, foreignKey: 'id_spa'});
 
+//
+Empleado.hasMany(TrabajaEn, { foreignKey: 'id_empleado' });
+TrabajaEn.belongsTo(Empleado, { foreignKey: 'id_empleado' });
+
+//
+Spa.hasMany(TrabajaEn, { foreignKey: 'id_spa' });
+TrabajaEn.belongsTo(Spa, { foreignKey: 'id_spa' });
+
 // Relacion uno a muchos entre Spa - Cliente
 
 //Un Cliente pertenece a un Spa
@@ -30,7 +38,7 @@ Spa.hasMany(Cliente,{
     onUpdate: 'cascade'
 });
 
-// Relacion entre Agenda - Empleado, Sesion, Cliente, Cabina
+// Relacion entre Agenda - Empleado, Sesion, Cliente, Cabina, Spa
 
 //El empleado tiene muchas citas o agenda muchas citas
 Empleado.hasMany(Agenda,{
@@ -88,6 +96,20 @@ Agenda.belongsTo(Sesion, {
     onDelete: 'restrict',
     onUpdate: 'cascade'
 
+});
+
+// Un Spa puede tener muchas citas
+Spa.hasMany(Agenda, {
+    foreignKey: 'id_spa',
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+// Cada cita pertenece a un solo Spa
+Agenda.belongsTo(Spa, {
+    foreignKey: 'id_spa',
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
 });
 
 // Relación uno a muchos entre Paquete - Agenda

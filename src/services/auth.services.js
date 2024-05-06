@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { Empleado } from "../models/index.js";
+import { Empleado, TrabajaEn, Spa } from "../models/index.js";
 
 const authService = {
   generateTokenForEmpleado(empleado) {
@@ -14,9 +14,20 @@ const authService = {
   async authenticateEmpleado(email, password_empleado) {
     console.log("Email:", email);
     console.log("Password:", password_empleado);
-    const empleado = await Empleado.findOne({ where: { email } });
+    const empleado = await Empleado.findOne({
+      where: { email: email },
+      include: [{
+          model: TrabajaEn,
+          include: [{
+              model: Spa
+          }]
+      }]
+  });
 
-    //console.log("Empleado:", empleado);
+
+    console.log("Empleado:", empleado);
+    console.log(empleado.Trabaja_ens[0].Spa);
+
 
     if (!empleado) {
       return null;
@@ -38,7 +49,13 @@ const authService = {
 
   async getEmpleadoById(id) {
     try {
-        const empleado = await Empleado.findOne({ where: { id_empleado: id } });
+      const empleado = await Empleado.findOne({
+        where: { id_empleado: id },
+        include: [{
+          model: TrabajaEn,
+          include: Spa
+        }]
+      });
         return empleado;
     } catch (error) {
         console.error(error);

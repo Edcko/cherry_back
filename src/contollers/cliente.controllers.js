@@ -7,7 +7,12 @@ const clienteController = {
 async getClientes(req, res){
 
     try{
-        const clientes = await clienteService.getAllClientes();
+        const idSpa = req.query.idSpa;
+        if(!idSpa){
+            return res.status(400).json({ message: "id_spa parameter is required" });
+        }
+
+        const clientes = await clienteService.getAllClientes(idSpa);
         res.status(200).json(clientes);
     }catch (error){
         console.log(error);
