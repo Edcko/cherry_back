@@ -35,6 +35,10 @@ Cabina.init(
             type: DataTypes.TEXT(),
             allowNull: false,
         },
+        id_spa:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
 
     },
     {

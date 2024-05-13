@@ -5,6 +5,7 @@ import clienteRoutes from "./cliente.routes.js";
 import paqueteRoutes from "./paquete.routes.js";
 import sesionRoutes from "./sesion.routes.js";
 import trabajaEnRoutes from "./trabaja_en.routes.js";
+import perteneceARoutes from "./pertenece_a.routes.js";
 import agendaRoutes from "./agenda.routes.js";
 import compraRoutes from "./compra.routes.js";
 import cabinaRoutes from "./cabina.routes.js"
@@ -20,6 +21,7 @@ router.use(clienteRoutes);
 router.use(paqueteRoutes);
 router.use(sesionRoutes);
 router.use(trabajaEnRoutes);
+router.use(perteneceARoutes);
 router.use(authRoutes);
 router.use(cabinaRoutes);
 

@@ -5,7 +5,12 @@ const cabinaController = {
     async getCabinas(req, res){
 
         try{
-            const cabinas = await cabinaService.getAllCabinas();
+            const idSpa = req.query.idSpa;
+            if(!idSpa){
+                return res.status(400).json({ message: "id_spa parameter is required" });
+            }
+
+            const cabinas = await cabinaService.getAllCabinas(idSpa);
             res.status(200).json(cabinas);
         } catch(error){
             console.error(error);

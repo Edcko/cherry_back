@@ -1,4 +1,5 @@
 import { Spa } from "./Spa.js";
+import { PerteneceA } from "./Pertenece_a.js";
 import { Empleado } from "./Empleado.js";
 import { TrabajaEn } from "./Trabaja_en.js";
 import { Sesion } from "./Sesion.js";
@@ -14,11 +15,11 @@ import { FeedbackValoracion } from "./Feedback_valoracion.js";
 Empleado.belongsToMany(Spa, {through: TrabajaEn, foreignKey: 'id_empleado'});
 Spa.belongsToMany(Empleado,{through: TrabajaEn, foreignKey: 'id_spa'});
 
-//
+// Relacion uno a muchos entre Empleado - Trabaja_en
 Empleado.hasMany(TrabajaEn, { foreignKey: 'id_empleado' });
 TrabajaEn.belongsTo(Empleado, { foreignKey: 'id_empleado' });
 
-//
+// Relacion uno a muchos entre Spa - Trabaja_en
 Spa.hasMany(TrabajaEn, { foreignKey: 'id_spa' });
 TrabajaEn.belongsTo(Spa, { foreignKey: 'id_spa' });
 
@@ -254,5 +255,33 @@ Valoracion.belongsTo(Cabina, {
     onUpdate: 'cascade'
 });
 
+
+// Relación muchos a muchos entre Spa y Paquete a través de SpaPaquete
+Spa.belongsToMany(Paquete, {
+    through: PerteneceA,
+    foreignKey: 'id_spa',
+    otherKey: 'id_paquete'
+});
+Paquete.belongsToMany(Spa, {
+    through: PerteneceA,
+    foreignKey: 'id_paquete',
+    otherKey: 'id_spa'
+});
+
+// Importante: Definir también las asociaciones inversas para poder incluir Spa y Paquete en las consultas de PerteneceA
+PerteneceA.belongsTo(Spa, {
+    foreignKey: 'id_spa'
+});
+PerteneceA.belongsTo(Paquete, {
+    foreignKey: 'id_paquete'
+});
+
+Spa.hasMany(PerteneceA, {
+    foreignKey: 'id_spa'
+});
+Paquete.hasMany(PerteneceA, {
+    foreignKey: 'id_paquete'
+});
+
 //Exportar modelos
-export { Spa, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra, Valoracion, FeedbackValoracion };
+export { Spa, PerteneceA, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra, Valoracion, FeedbackValoracion };

@@ -2,13 +2,15 @@ import { Cabina, Empleado } from "../models/index.js";
 
 const cabinaService = {
 
-  async getAllCabinas() {
+  async getAllCabinas(idSpa) {
     return await Cabina.findAll({
+        where: { id_spa: idSpa },
         include: [
             {
                 model: Empleado,
                 atributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
             },
+           
         ],
     });
 },
