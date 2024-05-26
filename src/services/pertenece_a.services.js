@@ -11,7 +11,7 @@ const perteneceAService = {
                 },
                 {
                     model: Paquete,  // Incluye información del Paquete
-                    attributes: ["nombre_paquete", "descripcion", "precio"],
+                    attributes: ["nombre_paquete", "descripcion", "precio", "fecha_inicio", "fecha_fin", "estado_paquete", "imagen_paquete", "numero_visitas", "numero_zonas_cuerpo"],
                 },
             ],
         });
@@ -24,7 +24,7 @@ const perteneceAService = {
             include: [
                 {
                     model: Paquete,
-                    attributes: ["nombre_paquete", "descripcion", "precio"],
+                    attributes: ["nombre_paquete", "descripcion", "precio", "fecha_inicio", "fecha_fin", "estado_paquete", "imagen_paquete", "numero_visitas", "numero_zonas_cuerpo"],
                 },
             ],
         });

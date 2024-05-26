@@ -256,7 +256,7 @@ Valoracion.belongsTo(Cabina, {
 });
 
 
-// Relación muchos a muchos entre Spa y Paquete a través de SpaPaquete
+// Relación muchos a muchos entre Spa y Paquete a través de PerteneceA
 Spa.belongsToMany(Paquete, {
     through: PerteneceA,
     foreignKey: 'id_spa',
