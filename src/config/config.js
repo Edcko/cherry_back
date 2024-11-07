@@ -5,10 +5,10 @@ export const config = {
        port: 5432,
        username: 'misael',
        password: 'rosas',
-       database: 'cherry',
+       database: 'misael',
        logging: true
     },
-    production:{
+    production:{ 
         dialect: 'postgres',
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,

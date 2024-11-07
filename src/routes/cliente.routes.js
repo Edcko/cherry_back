@@ -19,4 +19,7 @@ router.put('/cliente/:id', passport.authenticate("jwt", { session: false }), cli
 //Ruta para eliminar un cliente
 router.delete('/cliente/:id', passport.authenticate("jwt", { session: false }), clienteController.deleteCliente);
 
+//Ruta para generar documentos
+router.post('/clientes/:id/document', clienteController.createClientDocument);
+
 export default router;

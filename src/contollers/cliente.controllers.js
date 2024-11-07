@@ -87,7 +87,22 @@ async deleteCliente(req, res){
     }
 },
 
+async createClientDocument(req, res) {
+    const { id } = req.params;
 
+    try {
+    const cliente = await clienteService.getClienteById(id);
+    if (!cliente) {
+        return res.status(404).json({ message: `Cliente con ID ${id} no encontrado` });
+    }
+
+    const filePath = await clienteService.generateClientPDF(cliente);
+    res.status(201).json({ message: 'Documento generado', filePath });
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al generar el documento' });
+    }
+},
 
 }
 
