@@ -4,6 +4,7 @@ import { Cliente } from "./Cliente.js";
 import { Empleado } from "./Empleado.js";
 import { Cabina } from "./Cabina.js";
 import { Paquete } from "./Paquete.js";
+import { Spa } from "./Spa.js";
 
 class Valoracion extends Model {}
 
@@ -60,7 +61,14 @@ Valoracion.init(
         model: Paquete,
         key: "id_paquete",
       },
-    }
+    },
+    id_spa: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Spa,
+        key: "id_spa",
+      },
+    },
   },
   {
     sequelize: db.sequelize,

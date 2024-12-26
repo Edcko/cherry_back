@@ -7,6 +7,20 @@ const empleadoService = {
         return await Empleado.findAll();
     },
 
+    async getAllEmpleadosActivos(){
+        try {
+            const empleadosActivos = await Empleado.findAll({
+            where: {
+                activo: true
+            }
+            });
+            return empleadosActivos;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
     async getEmpleadoById(id){
         return await Empleado.findOne({ where: {id_empleado: id}});
     },

@@ -2,96 +2,121 @@
 import { valoracionService } from "../services/valoracion.services.js";
 
 const valoracionController = {
-    async getValoraciones(req, res){
-        try{
-        const valoraciones = await valoracionService.getAllValoraciones();
-        res.status(200).json(valoraciones);
-        }catch(error){
+    // Obtener todas las valoraciones filtradas por idSpa
+    async getValoraciones(req, res) {
+        try {
+            const idSpa = req.query.idSpa;
+
+            if (!idSpa) {
+                return res.status(400).json({ message: "El parámetro idSpa es requerido" });
+            }
+
+            const valoraciones = await valoracionService.getAllValoraciones(idSpa);
+            res.status(200).json(valoraciones);
+        } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Server error' });
+            res.status(500).json({ message: 'Error al obtener las valoraciones', error });
         }
     },
 
-    async getValoracionesByDateRange(req, res){
-        try{
-            const { startDate, endDate } = req.query;
-            const valoraciones = await valoracionService.getValoracionesByDateRange(startDate, endDate);
-            res.status(200).json(valoraciones);
-        } catch(error){
-            console.error(error);
-            res.status(500).json({ message: 'Server error' });
-        }
-    },    
-
-    async searchValoraciones(req, res){
+    // Obtener valoraciones dentro de un rango de fechas filtradas por idSpa
+    async getValoracionesByDateRange(req, res) {
         try {
-            const { keyword, fecha } = req.query;
-            const valoraciones = await valoracionService.searchValoraciones({keyword, fecha});
+            const { startDate, endDate, idSpa } = req.query;
+
+            if (!idSpa) {
+                return res.status(400).json({ message: "El parámetro idSpa es requerido" });
+            }
+
+            const valoraciones = await valoracionService.getValoracionesByDateRange(idSpa, startDate, endDate);
             res.status(200).json(valoraciones);
         } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error al obtener las valoraciones por rango de fechas', error });
+        }
+    },
+
+    // Búsqueda de valoraciones con filtro por idSpa
+    async searchValoraciones(req, res) {
+        try {
+            const { keyword, fecha, idSpa } = req.query;
+
+            if (!idSpa) {
+                return res.status(400).json({ message: "El parámetro idSpa es requerido" });
+            }
+
+            const valoraciones = await valoracionService.searchValoraciones({ keyword, fecha, idSpa });
+            res.status(200).json(valoraciones);
+        } catch (error) {
+            console.error(error);
             res.status(500).json({ message: 'Error en la búsqueda de valoraciones', error });
         }
     },
 
-    async getValoracionById(req, res){
-        const { id } =  req.params;
+    // Obtener una valoración por ID
+    async getValoracionById(req, res) {
+        const { id } = req.params;
 
-        try{
+        try {
             const valoracion = await valoracionService.getValoracionById(id);
 
-            if(!valoracion){
-                res.status(404).json({ message: `Valoracion with id ${id} not found` });
-            } else {
-                res.status(200).json(valoracion);
+            if (!valoracion) {
+                return res.status(404).json({ message: `Valoración con ID ${id} no encontrada` });
             }
-        } catch(error){
+
+            res.status(200).json(valoracion);
+        } catch (error) {
             console.error(error);
-            res.status(500).json({ message: `error retrieving valoracion with id ${id}` });
+            res.status(500).json({ message: `Error al obtener la valoración con ID ${id}`, error });
         }
     },
 
+    // Crear una nueva valoración
     async createValoracion(req, res) {
         try {
             const newValoracion = await valoracionService.createValoracion(req.body);
             res.status(201).json(newValoracion);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Error creating valoracion' });
+            res.status(500).json({ message: 'Error al crear la valoración', error });
         }
     },
 
-    async updateValoracion(req,res){
+    // Actualizar una valoración existente
+    async updateValoracion(req, res) {
         const { id } = req.params;
 
-        try{
+        try {
             const updatedValoracion = await valoracionService.updateValoracion(id, req.body);
 
-            if(!updatedValoracion){
-                res.status(404).json({ message: `Valoracion with id ${id} not found` });
-            }else{
-                res.status(200).json(updatedValoracion);
+            if (!updatedValoracion) {
+                return res.status(404).json({ message: `Valoración con ID ${id} no encontrada` });
             }
-        }catch(error){
+
+            res.status(200).json(updatedValoracion);
+        } catch (error) {
             console.error(error);
-            res.status(500).json({ message: `Error updating valoracion with id ${id}` });
+            res.status(500).json({ message: `Error al actualizar la valoración con ID ${id}`, error });
         }
     },
 
-    async deleteValoracion(req,res){
+    // Eliminar una valoración
+    async deleteValoracion(req, res) {
         const { id } = req.params;
 
-        try{
+        try {
             const deletedValoracion = await valoracionService.deleteValoracion(id);
 
-            if(!deletedValoracion){
-                res.status(404).json({ message: `Valoracion with id ${id} not found` });
-            }else{
-                res.status(204).send();
+            if (!deletedValoracion) {
+                return res.status(404).json({ message: `Valoración con ID ${id} no encontrada` });
             }
-        }catch(error){
+
+            res.status(204).send();
+        } catch (error) {
             console.error(error);
-            res.status(500).json({ message: `Error deleting valoracion with id ${id}`});
+            res.status(500).json({ message: `Error al eliminar la valoración con ID ${id}`, error });
         }
     }
-}
+};
+
 export { valoracionController };

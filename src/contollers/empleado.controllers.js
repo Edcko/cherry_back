@@ -15,6 +15,16 @@ async getEmpleados(req, res){
     }
 },
 
+async getAllEmpleadosActivos(req, res) {
+    try {
+    const empleadosActivos = await empleadoService.getAllEmpleadosActivos();
+    res.status(200).json(empleadosActivos);
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error obteniendo empleados activos' });
+    }
+},
+
 async getEmpleadoById(req,res){
     const { id } = req.params;
 

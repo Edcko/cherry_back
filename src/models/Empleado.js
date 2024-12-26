@@ -49,6 +49,11 @@ Empleado.init({
     fecha_contratacion:{
         type: DataTypes.DATE,
         allowNull: true
+    },
+    activo: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
     }
     
  }, 

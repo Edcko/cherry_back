@@ -228,7 +228,24 @@ const agendaController = {
     // Llamar al servicio con las cadenas de fecha formateadas manualmente
     const citas = await agendaService.getCitasByDateRange(startDateString, endDateString);
     res.status(200).json(citas);
-    }
+    },
+
+    async getCitasCountByDateRange(req, res) {
+        try {
+            const idSpa = req.query.idSpa; // id del spa
+            const { startDate, endDate } = req.query;
+    
+            if (!idSpa || !startDate || !endDate) {
+                return res.status(400).json({ message: "idSpa, startDate, and endDate are required." });
+            }
+    
+            const citasCount = await agendaService.getCitasCountByDateRange(idSpa, startDate, endDate);
+            res.status(200).json(citasCount);
+        } catch (error) {
+            console.error("Error fetching citas count:", error);
+            res.status(500).json({ message: "Server error while fetching citas count." });
+        }
+    },    
 
     
 }

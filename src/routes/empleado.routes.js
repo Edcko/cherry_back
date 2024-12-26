@@ -8,6 +8,9 @@ const router = Router()
 //Ruta para obtener todos los empleados
 router.get('/empleados', passport.authenticate("jwt", { session: false }), /*requiereRole('Gerente', 'Admin'), */ empleadoController.getEmpleados);
 
+//Ruta para obtener todos los empleados activos
+router.get('/empleados/activos', passport.authenticate("jwt", {session: false}), empleadoController.getAllEmpleadosActivos);
+
 //Ruta para obtener un spa por su ID
 router.get('/empleado/:id', passport.authenticate("jwt", {session: false}), empleadoController.getEmpleadoById);
 

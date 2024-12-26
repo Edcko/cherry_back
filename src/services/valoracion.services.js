@@ -1,8 +1,14 @@
-import { Valoracion, Cliente, Empleado, Cabina, Paquete  } from "../models/index.js";
+import { db } from "../config/database.js"; // Ajusta la ruta si es necesario
+const { sequelize } = db; // Extrae la instancia de sequelize
+import { Valoracion, Cliente, Empleado, Cabina, Paquete, Spa } from "../models/index.js";
 
 const valoracionService = {
-    async getAllValoraciones(){
+    async getAllValoraciones(idSpa){
+        const today = new Date();
+        today.setHours(0,0,0,0); // Establecer el inicio del día actual
+
         return await Valoracion.findAll({
+            where: { id_spa: idSpa },
             include: [
                 {
                     model: Empleado,
@@ -21,10 +27,52 @@ const valoracionService = {
                     }],
                 },
                 {
-                   model: Paquete,
-                   attributes: ["nombre_paquete"],
+                    model: Paquete,
+                    attributes: ["nombre_paquete"],
                 },
-            ]
+                {
+                    model: Spa,
+                    attributes: ["nombre_spa", "ciudad", "calle", "colonia", "codigo_postal", "telefono"],
+                },
+            ],
+            order: [
+                [
+                    // Lógica para agrupar según las fechas
+                    sequelize.literal(`CASE
+                        WHEN "fecha_valoracion" >= '${today.toISOString()}' THEN 0
+                        WHEN "fecha_valoracion" < '${today.toISOString()}' THEN 1
+                        ELSE 2
+                    END`),
+                    "ASC",
+                ],
+                [ "fecha_valoracion", "ASC" ] // Ordenar por fecha dentro de cada grupo
+            ],
+        });
+    },
+
+     // Obtener valoraciones por rango de fechas para un spa
+     async getValoracionesByDateRange(idSpa, startDate, endDate) {
+        return await Valoracion.findAll({
+            where: {
+                id_spa: idSpa,
+                fecha_valoracion: {
+                    [Op.between]: [startDate, endDate],
+                },
+            },
+            include: [
+                {
+                    model: Cliente,
+                    attributes: ["nombre_cliente", "apellido_paterno", "apellido_materno"],
+                },
+                {
+                    model: Empleado,
+                    attributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+                },
+                {
+                    model: Spa,
+                    attributes: ["nombre_spa", "ciudad", "calle", "colonia", "codigo_postal", "telefono"],
+                },
+            ],
         });
     },
 
@@ -50,13 +98,20 @@ const valoracionService = {
         return valoracion;
     },
 
-    async getValoracionesByDateRange(starDate, endDate){
+    async getValoracionesByDateRange(idSpa, starDate, endDate){
         return await Valoracion.findAll({
             where: {
+                id_spa: idSpa,
                 fecha_valoracion: {
                     [Op.between]: [starDate, endDate],
                 },
             },
+            include: [
+                {
+                    model: Empleado,
+                    attributes: ["nombre_empleado", "apellido_paterno", "apellido_materno"],
+                }
+            ]
         });
     },
 

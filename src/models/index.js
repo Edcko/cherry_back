@@ -255,6 +255,18 @@ Valoracion.belongsTo(Cabina, {
     onUpdate: 'cascade'
 });
 
+// Relación uno a muchos entre Spa y Valoracion
+Spa.hasMany(Valoracion, {
+    foreignKey: "id_spa",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
+
+Valoracion.belongsTo(Spa, {
+    foreignKey: "id_spa",
+    onDelete: 'restrict',
+    onUpdate: 'cascade'
+});
 
 // Relación muchos a muchos entre Spa y Paquete a través de PerteneceA
 Spa.belongsToMany(Paquete, {

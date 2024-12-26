@@ -49,4 +49,12 @@ router.get('/citas/daterange', agendaController.citasByDateRange);
 //Ruta para obtener las citas de una fecha especifica
 router.get('/citas/date/fecha', agendaController.citasByDate);
 
+// -------------------- Nueva Ruta: Conteo de Citas por Fecha -------------------- //
+// Ruta para obtener el conteo de citas agrupadas por fecha en un rango
+router.get(
+    '/citas/count',
+    passport.authenticate("jwt", { session: false }), // Autenticación opcional
+    agendaController.getCitasCountByDateRange
+);  
+
 export default router;

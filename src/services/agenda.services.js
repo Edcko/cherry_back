@@ -1,5 +1,5 @@
 import { Agenda, Empleado, Cliente, Cabina, Sesion, Paquete, Spa } from "../models/index.js";
-import { Op } from "sequelize";
+import { Sequelize, Op } from "sequelize";
 
 const agendaService = {
     
@@ -24,8 +24,8 @@ const agendaService = {
                     }],
                 },
                 {
-                   model: Paquete,
-                   attributes: ["nombre_paquete"],
+                    model: Paquete,
+                    attributes: ["nombre_paquete"],
                 },
                 {
                     model: Sesion,
@@ -185,7 +185,28 @@ const agendaService = {
                 },
             ],
         });
+    },
+
+    async getCitasCountByDateRange(idSpa, startDate, endDate) {
+        return await Agenda.findAll({
+            attributes: [
+                [Sequelize.fn("DATE", Sequelize.col("fecha")), "fecha"], // Agrupar por fecha
+                [Sequelize.fn("COUNT", "*"), "count"] // Contar citas por fecha
+            ],
+            where: {
+                id_spa: idSpa,
+                fecha: {
+                    [Op.between]: [startDate, endDate]
+                },
+                estado: { // Excluir los estados específicos
+                    [Op.notIn]: ["Reagendo cita", "Cita cancelada"]
+                }
+            },
+            group: [Sequelize.fn("DATE", Sequelize.col("fecha"))], // Agrupar por la fecha (ignorar horas)
+            order: [[Sequelize.fn("DATE", Sequelize.col("fecha")), "ASC"]]
+        });
     }
+    
 
 }
 
