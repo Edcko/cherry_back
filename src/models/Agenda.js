@@ -17,6 +17,17 @@ Agenda.init(
         autoIncrement: true
     },
 
+    id_cita_origen: {
+      type: DataTypes.INTEGER,
+      allowNull: true, // Puede ser null para citas nuevas
+      references: {
+        model: 'Agenda',
+        key: 'id_cita'
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL'
+    },
+
     id_empleado: {
       type: DataTypes.INTEGER,
       references: {

@@ -55,6 +55,10 @@ router.get(
     '/citas/count',
     passport.authenticate("jwt", { session: false }), // Autenticación opcional
     agendaController.getCitasCountByDateRange
-);  
+);
+
+// Ruta para reagendar citas
+router.post('/citas/reagendar', passport.authenticate("jwt", { session: false }), agendaController.reagendarCita);
+
 
 export default router;

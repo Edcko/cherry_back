@@ -205,7 +205,51 @@ const agendaService = {
             group: [Sequelize.fn("DATE", Sequelize.col("fecha"))], // Agrupar por la fecha (ignorar horas)
             order: [[Sequelize.fn("DATE", Sequelize.col("fecha")), "ASC"]]
         });
-    }
+    },
+    
+    async reagendarCita(idCitaOriginal, nuevaFecha) {
+        try {
+            // Buscar la cita original
+            const citaOriginal = await Agenda.findOne({ 
+                where: { id_cita: idCitaOriginal },
+                include: [
+                    { model: Empleado },
+                    { model: Cliente },
+                    { model: Cabina },
+                    { model: Paquete },
+                    { model: Sesion },
+                    { model: Spa }
+                ]
+            });
+    
+            if (!citaOriginal) {
+                throw new Error(`Cita con ID ${idCitaOriginal} no encontrada`);
+            }
+    
+            // Actualizar el estado de la cita original a "Reagendada"
+            await citaOriginal.update({ estado: "Reagendada" });
+    
+            // Crear una nueva cita con la nueva fecha
+            const nuevaCita = await Agenda.create({
+                id_empleado: citaOriginal.id_empleado,
+                id_cabina: citaOriginal.id_cabina,
+                id_cliente: citaOriginal.id_cliente,
+                id_sesion: citaOriginal.id_sesion,
+                id_spa: citaOriginal.id_spa,
+                fecha: nuevaFecha,
+                estado: "Por confirmar",
+                id_paquete: citaOriginal.id_paquete,
+                numero_visita: citaOriginal.numero_visita + 1,
+                tipo_cita: citaOriginal.tipo_cita,
+                id_cita_origen: citaOriginal.id_cita // Relación con la cita original
+            });
+    
+            return { citaOriginal, nuevaCita };
+        } catch (error) {
+            console.error("Error en reagendarCita:", error);
+            throw error;
+        }
+    },
     
 
 }

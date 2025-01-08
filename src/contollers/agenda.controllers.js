@@ -1,6 +1,7 @@
 import { Agenda } from "../models/Agenda.js";
 import { Cabina } from "../models/Cabina.js";
 import { agendaService } from "../services/agenda.services.js";
+import { Op } from "sequelize";
 
 
 const agendaController = {
@@ -60,7 +61,8 @@ const agendaController = {
                     }
                 }],
                 where: {
-                    fecha: fecha
+                    fecha: fecha,
+                    estado: { [Op.notIn]: ["Reagendo cita", "Cita cancelada"] } // Excluir estados no relevantes
                 }
             });
     
@@ -247,6 +249,28 @@ const agendaController = {
         }
     },    
 
+    async reagendarCita(req, res) {
+        try {
+            const { idCitaOriginal, nuevaFecha } = req.body;
+    
+            if (!idCitaOriginal || !nuevaFecha) {
+                return res.status(400).json({
+                    message: "Se requiere el ID de la cita original y la nueva fecha."
+                });
+            }
+    
+            const { citaOriginal, nuevaCita } = await agendaService.reagendarCita(idCitaOriginal, nuevaFecha);
+    
+            res.status(200).json({
+                message: "Cita reagendada exitosamente.",
+                citaOriginal,
+                nuevaCita
+            });
+        } catch (error) {
+            console.error("Error en reagendarCita:", error);
+            res.status(500).json({ message: "Error al reagendar la cita." });
+        }
+    },
     
 }
 
