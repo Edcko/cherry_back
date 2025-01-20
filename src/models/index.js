@@ -9,6 +9,7 @@ import { Agenda } from "./Agenda.js";
 import { Compra } from "./Compra.js";
 import { Cabina } from "./Cabina.js";
 import { Valoracion } from "./Valoracion.js";
+import { Configuracion } from "./Configuracion.js";
 import { FeedbackValoracion } from "./Feedback_valoracion.js";
 
 // Relacion muchos a muchos entre las relaciones Spa - Empleado con la tabla intermedia TrabajaEn
@@ -295,5 +296,17 @@ Paquete.hasMany(PerteneceA, {
     foreignKey: 'id_paquete'
 });
 
+Spa.hasOne(Configuracion, {
+    foreignKey: "id_spa",
+    onDelete: "cascade",
+    onUpdate: "cascade"
+});
+
+Configuracion.belongsTo(Spa, {
+    foreignKey: "id_spa",
+    onDelete: "cascade",
+    onUpdate: "cascade"
+});
+
 //Exportar modelos
-export { Spa, PerteneceA, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra, Valoracion, FeedbackValoracion };
+export { Spa, PerteneceA, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra, Valoracion, FeedbackValoracion, Configuracion};

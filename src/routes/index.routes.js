@@ -11,6 +11,7 @@ import compraRoutes from "./compra.routes.js";
 import cabinaRoutes from "./cabina.routes.js"
 import authRoutes from "./auth.routes.js";
 import valoracionRoutes from "./valoracion.routes.js";
+import configuracionRoutes  from "./configuracion.routes.js";
 //import passport from "passport";
 
 const router = Router();
@@ -30,5 +31,8 @@ router.use(agendaRoutes);
 router.use(compraRoutes);
 router.use(valoracionRoutes);
 router.use(empleadoRoutes);
+
+// Configuracion
+router.use(configuracionRoutes);
 
 export default router;
