@@ -92,6 +92,27 @@ async deleteEmpleado(req, res){
     }
 },
 
+async updatePassword(req, res) {
+    const { id } = req.params;
+    const { newPassword } = req.body; // La nueva contraseña debe ser enviada en el cuerpo de la solicitud
+
+    if (!newPassword || newPassword.trim() === "") {
+        return res.status(400).json({ message: "La nueva contraseña es requerida" });
+    }
+
+    try {
+        const updatedEmpleado = await empleadoService.updatePassword(id, newPassword);
+
+        res.status(200).json({
+            message: `Contraseña del empleado con ID ${id} actualizada correctamente`,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: `Error actualizando la contraseña del empleado con ID ${id}` });
+    }
+}
+
+
 }
 
 export {empleadoController};

@@ -10,13 +10,19 @@ const configuracionService = {
         }
       },
       async updateConfiguracion(clave, id_spa, valor) {
-        const configuracion = await Configuracion.findOne({ where: { clave, id_spa } });
-        if (configuracion) {
-          return await configuracion.update({ valor });
-        } else {
-          throw new Error(`Configuración con clave ${clave} e id_spa ${id_spa} no encontrada`);
+        try {
+          const configuracion = await Configuracion.findOne({ where: { clave, id_spa } });
+          if (!configuracion) {
+            throw new Error(`Configuración con clave ${clave} e id_spa ${id_spa} no encontrada`);
+          }
+      
+          // Forzar a texto antes de guardar
+          return await configuracion.update({ valor: String(valor) });
+        } catch (error) {
+          console.error(`Error al actualizar configuración con clave ${clave} e id_spa ${id_spa}:`, error);
+          throw new Error("Error al actualizar configuración.");
         }
-      },
+      },      
       
   async createConfiguracion(data) {
     try {

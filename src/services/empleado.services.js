@@ -50,6 +50,30 @@ const empleadoService = {
         return empleado;
     },
 
+    async updatePassword(id, newPassword) {
+        try {
+            // Buscar el empleado por su ID
+            const empleado = await Empleado.findOne({ where: { id_empleado: id } });
+            if (!empleado) {
+                throw new Error(`Empleado con ID ${id} no encontrado`);
+            }
+    
+            // Encriptar la nueva contraseña
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
+            // Actualizar la contraseña del empleado
+            empleado.password_empleado = hashedPassword;
+            await empleado.save();
+    
+            return empleado;
+        } catch (error) {
+            console.error("Error actualizando la contraseña:", error);
+            throw error;
+        }
+    }    
+
 }
+
+
 
 export { empleadoService };

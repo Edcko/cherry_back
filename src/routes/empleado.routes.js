@@ -23,4 +23,11 @@ router.put('/empleado/:id', passport.authenticate("jwt", {session: false}), empl
 //Ruta para borrar un empleado
 router.delete('/empleado/:id', passport.authenticate("jwt", {session: false}), empleadoController.deleteEmpleado);
 
+// Ruta para actualizar la contraseña de un empleado
+router.put(
+    "/empleado/:id/password",
+    passport.authenticate("jwt", { session: false }),
+    empleadoController.updatePassword
+);
+
 export default router;

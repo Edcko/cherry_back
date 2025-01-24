@@ -70,19 +70,23 @@ const configuracionController = {
 
   async updateFechaApertura(req, res) {
     try {
-      const { idSpa } = req.query;
+      const { idSpa: id_spa } = req.query;
       const { fecha_apertura } = req.body;
-
-      if (!idSpa) {
+      console.log("ID Spa recibido:", id_spa);
+console.log("Fecha de apertura recibida:", fecha_apertura);
+  
+      if (!id_spa) {
         return res.status(400).json({ message: "El parámetro 'idSpa' es requerido." });
       }
-
-      if (!fecha_apertura || isNaN(Date.parse(fecha_apertura))) {
-        return res.status(400).json({ message: "La fecha de apertura debe ser una fecha válida." });
+  
+      // Validar formato de fecha explícitamente
+      const fechaRegex = /^\d{4}-\d{2}-\d{2}$/;
+      if (!fecha_apertura || !fechaRegex.test(fecha_apertura)) {
+        return res.status(400).json({ message: "La fecha de apertura debe tener el formato 'YYYY-MM-DD'." });
       }
-
-      const updated = await configuracionService.updateConfiguracion("fecha_apertura_agenda", idSpa, fecha_apertura);
-
+  
+      const updated = await configuracionService.updateConfiguracion("fecha_apertura_agenda", id_spa, fecha_apertura);
+  
       res.status(200).json({
         message: "Fecha de apertura de la agenda actualizada.",
         configuracion: updated,
@@ -91,7 +95,8 @@ const configuracionController = {
       console.error("Error al actualizar la fecha de apertura de la agenda:", error);
       res.status(500).json({ message: "Error al actualizar la fecha de apertura de la agenda." });
     }
-  },
+  }
+  
 };
 
 export { configuracionController };
