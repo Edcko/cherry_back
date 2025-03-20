@@ -61,6 +61,33 @@ Cliente.init({
         allowNull: true
     },
 
+    motivo_bajar: {
+        type: DataTypes.STRING(255),
+        allowNull: true
+    },
+
+    cantidad_bajar: {
+        type: DataTypes.NUMERIC(5,2),
+        allowNull: true
+    },
+
+    peso_actual: {
+        type: DataTypes.NUMERIC(5,2),
+        allowNull: true
+    },
+    estatura: {
+        type: DataTypes.NUMERIC(5,2),
+        allowNull: true
+    },
+    cintura: {
+        type: DataTypes.NUMERIC(5,2),
+        allowNull: true
+    },
+    cadera: {
+        type: DataTypes.NUMERIC(5,2),
+        allowNull: true
+    },    
+
 }, {
     sequelize: db.sequelize,
     modelName: 'Cliente',
