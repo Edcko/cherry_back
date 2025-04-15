@@ -12,6 +12,7 @@ import cabinaRoutes from "./cabina.routes.js"
 import authRoutes from "./auth.routes.js";
 import valoracionRoutes from "./valoracion.routes.js";
 import configuracionRoutes  from "./configuracion.routes.js";
+import bloqueoCabinaRoutes from "./bloqueo_cabina.routes.js";
 //import passport from "passport";
 
 const router = Router();
@@ -25,6 +26,7 @@ router.use(trabajaEnRoutes);
 router.use(perteneceARoutes);
 router.use(authRoutes);
 router.use(cabinaRoutes);
+router.use(bloqueoCabinaRoutes);
 
 // Autenticacion y autorizacion
 router.use(agendaRoutes);

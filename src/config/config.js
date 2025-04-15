@@ -5,7 +5,7 @@ export const config = {
        port: 5432,
        username: 'misael',
        password: 'rosas',
-       database: 'cherry_backup-18-12-24',
+       database: 'cherry_backup-12-04-25',
        logging: true
     },
     production:{ 

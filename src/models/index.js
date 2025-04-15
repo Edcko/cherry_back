@@ -11,6 +11,7 @@ import { Cabina } from "./Cabina.js";
 import { Valoracion } from "./Valoracion.js";
 import { Configuracion } from "./Configuracion.js";
 import { FeedbackValoracion } from "./Feedback_valoracion.js";
+import { BloqueoCabina } from "./Bloqueo_cabina.js";
 
 // Relacion muchos a muchos entre las relaciones Spa - Empleado con la tabla intermedia TrabajaEn
 Empleado.belongsToMany(Spa, {through: TrabajaEn, foreignKey: 'id_empleado'});
@@ -307,6 +308,11 @@ Configuracion.belongsTo(Spa, {
     onDelete: "cascade",
     onUpdate: "cascade"
 });
+
+// Definir relaciones si lo requieres:
+// Definición de asociaciones (si usas un archivo index o un bloque de asociaciones centralizado)
+BloqueoCabina.belongsTo(Cabina, { foreignKey: "id_cabina" });
+BloqueoCabina.belongsTo(Spa, { foreignKey: "id_spa" });
 
 //Exportar modelos
 export { Spa, PerteneceA, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra, Valoracion, FeedbackValoracion, Configuracion};
