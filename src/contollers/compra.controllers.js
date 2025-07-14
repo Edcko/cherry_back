@@ -29,6 +29,23 @@ const compraController = {
         }
     },
 
+    async getCompraCompleta(req, res){
+        const { id } = req.params;
+
+        try{
+            const compra = await compraService.getCompraCompletaById(id);
+
+            if(!compra){
+                res.status(404).json({ message: `Compra with id ${id} not found` });
+            } else {
+                res.status(200).json(compra);
+            }
+        } catch(error){
+            console.error(error);
+            res.status(500).json({ message: `Error retrieving complete compra with id ${id}` });
+        }
+    },
+
     
     async createCompra(req, res){
         try{
@@ -124,6 +141,51 @@ const compraController = {
         }
 
     },
+    // controllers/compra.controllers.js
+ async getVentasPorRango(req, res) {
+    try {
+      const { inicio, fin } = req.query;
+      if (!inicio || !fin) {
+        return res.status(400).json({ message: "Debes enviar inicio y fin en query params" });
+      }
+
+      const agregados = await compraService.getVentasPorRango(inicio, fin);
+      res.status(200).json(agregados);
+    } catch (e) {
+      console.error("Error en getVentasPorRango:", e);
+      res.status(500).json({ message: "Error al obtener totales de ventas" });
+    }
+  },
+
+   async getVentasDetallePorRango(req, res) {
+    try {
+      const { inicio, fin } = req.query;
+      if (!inicio || !fin) {
+        return res.status(400).json({ message: "Debes enviar inicio y fin en query params" });
+      }
+
+      const detalle = await compraService.getVentasDetallePorRango(inicio, fin);
+      res.status(200).json(detalle);
+    } catch (e) {
+      console.error("Error en getVentasDetallePorRango:", e);
+      res.status(500).json({ message: "Error al obtener detalle diario de ventas" });
+    }
+  },
+
+  async getVentasDetalleConCompradores(req, res) {
+    try {
+      const { inicio, fin } = req.query;
+      if (!inicio || !fin) {
+        return res.status(400).json({ message: "Debes enviar inicio y fin en query params" });
+      }
+
+      const detalle = await compraService.getVentasDetalleConCompradores(inicio, fin);
+      res.status(200).json(detalle);
+    } catch (e) {
+      console.error("Error en getVentasDetalleConCompradores:", e);
+      res.status(500).json({ message: "Error al obtener detalle de ventas con compradores" });
+    }
+  },
 
 }
 
