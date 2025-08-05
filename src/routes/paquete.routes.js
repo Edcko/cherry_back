@@ -19,4 +19,14 @@ router.put('/paquete/:id', passport.authenticate("jwt", { session: false }), paq
 //Ruta para eleminar un paquete
 router.delete('/paquete/:id', passport.authenticate("jwt", { session: false }), paqueteController.deletePaquete);
 
+// Nuevas rutas para manejo de sesiones restantes
+// Ruta para obtener paquetes con sesiones disponibles
+router.get('/paquetes/sesiones-disponibles', passport.authenticate("jwt", { session: false }), paqueteController.getPaquetesConSesionesDisponibles);
+
+// Ruta para obtener paquetes por spa con sesiones disponibles
+router.get('/paquetes/spa/:idSpa/sesiones-disponibles', passport.authenticate("jwt", { session: false }), paqueteController.getPaquetesPorSpaConSesionesDisponibles);
+
+// Ruta para validar sesiones disponibles de un paquete específico
+router.get('/paquete/:idPaquete/validar-sesiones', passport.authenticate("jwt", { session: false }), paqueteController.validarSesionesDisponibles);
+
 export default router;

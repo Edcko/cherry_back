@@ -83,6 +83,46 @@ const paqueteController = {
         }
     },
 
+    // Nuevo endpoint para obtener paquetes con sesiones disponibles
+    async getPaquetesConSesionesDisponibles(req, res){
+        try{
+            const paquetes = await paqueteService.getPaquetesConSesionesDisponibles();
+            res.status(200).json(paquetes);
+        }catch(error){
+            console.error(error);
+            res.status(500).json({ message: 'Error obteniendo paquetes con sesiones disponibles' });
+        }
+    },
+
+    // Nuevo endpoint para obtener paquetes por spa con sesiones disponibles
+    async getPaquetesPorSpaConSesionesDisponibles(req, res){
+        const { idSpa } = req.params;
+        
+        try{
+            const paquetes = await paqueteService.getPaquetesPorSpaConSesionesDisponibles(idSpa);
+            res.status(200).json(paquetes);
+        }catch(error){
+            console.error(error);
+            res.status(500).json({ message: `Error obteniendo paquetes del spa ${idSpa} con sesiones disponibles` });
+        }
+    },
+
+    // Endpoint para validar sesiones disponibles de un paquete
+    async validarSesionesDisponibles(req, res){
+        const { idPaquete } = req.params;
+        
+        try{
+            const tieneSesiones = await paqueteService.validarSesionesDisponibles(idPaquete);
+            res.status(200).json({ 
+                tieneSesiones,
+                message: tieneSesiones ? 'El paquete tiene sesiones disponibles' : 'El paquete no tiene sesiones disponibles'
+            });
+        }catch(error){
+            console.error(error);
+            res.status(500).json({ message: 'Error validando sesiones del paquete' });
+        }
+    }
+
 }
 
 

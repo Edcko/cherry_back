@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "migrate": "sequelize-cli db:migrate",
+    "migrate:undo": "sequelize-cli db:migrate:undo",
+    "migrate:undo:all": "sequelize-cli db:migrate:undo:all"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +32,7 @@
     "socket.io": "^4.6.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.21"
+    "nodemon": "^2.0.21",
+    "sequelize-cli": "^6.6.3"
   }
 }
