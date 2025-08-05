@@ -1,5 +1,6 @@
 import { Agenda, Empleado, Cliente, Cabina, Sesion, Paquete, Spa } from "../models/index.js";
 import { Sequelize, Op } from "sequelize";
+import { clientePaqueteSesionesService } from "./cliente_paquete_sesiones.services.js";
 
 const agendaService = {
     
@@ -44,6 +45,14 @@ const agendaService = {
     },
 
     async createCita(data){
+        // Validar que el cliente tenga sesiones disponibles para el paquete
+        if (data.id_cliente && data.id_paquete) {
+            const validacion = await clientePaqueteSesionesService.validarSesionesDisponibles(data.id_cliente, data.id_paquete);
+            if (!validacion.puedeAgendar) {
+                throw new Error(validacion.mensaje);
+            }
+        }
+        
         return await Agenda.create(data);
     },
 

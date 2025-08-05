@@ -13,6 +13,7 @@ import authRoutes from "./auth.routes.js";
 import valoracionRoutes from "./valoracion.routes.js";
 import configuracionRoutes  from "./configuracion.routes.js";
 import bloqueoCabinaRoutes from "./bloqueo_cabina.routes.js";
+import clientePaqueteSesionesRoutes from "./cliente_paquete_sesiones.routes.js";
 //import passport from "passport";
 
 const router = Router();
@@ -36,5 +37,8 @@ router.use(empleadoRoutes);
 
 // Configuracion
 router.use(configuracionRoutes);
+
+// Sesiones de cliente por paquete
+router.use(clientePaqueteSesionesRoutes);
 
 export default router;

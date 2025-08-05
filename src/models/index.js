@@ -12,6 +12,7 @@ import { Valoracion } from "./Valoracion.js";
 import { Configuracion } from "./Configuracion.js";
 import { FeedbackValoracion } from "./Feedback_valoracion.js";
 import { BloqueoCabina } from "./Bloqueo_cabina.js";
+import { ClientePaqueteSesiones } from "./Cliente_paquete_sesiones.js";
 
 // Relacion muchos a muchos entre las relaciones Spa - Empleado con la tabla intermedia TrabajaEn
 Empleado.belongsToMany(Spa, {through: TrabajaEn, foreignKey: 'id_empleado'});
@@ -314,5 +315,35 @@ Configuracion.belongsTo(Spa, {
 BloqueoCabina.belongsTo(Cabina, { foreignKey: "id_cabina" });
 BloqueoCabina.belongsTo(Spa, { foreignKey: "id_spa" });
 
+// Relación muchos a muchos entre Cliente y Paquete a través de ClientePaqueteSesiones
+Cliente.belongsToMany(Paquete, {
+    through: ClientePaqueteSesiones,
+    foreignKey: 'id_cliente',
+    otherKey: 'id_paquete'
+});
+
+Paquete.belongsToMany(Cliente, {
+    through: ClientePaqueteSesiones,
+    foreignKey: 'id_paquete',
+    otherKey: 'id_cliente'
+});
+
+// Relaciones específicas para ClientePaqueteSesiones
+ClientePaqueteSesiones.belongsTo(Cliente, {
+    foreignKey: 'id_cliente'
+});
+
+ClientePaqueteSesiones.belongsTo(Paquete, {
+    foreignKey: 'id_paquete'
+});
+
+Cliente.hasMany(ClientePaqueteSesiones, {
+    foreignKey: 'id_cliente'
+});
+
+Paquete.hasMany(ClientePaqueteSesiones, {
+    foreignKey: 'id_paquete'
+});
+
 //Exportar modelos
-export { Spa, PerteneceA, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra, Valoracion, FeedbackValoracion, Configuracion};
+export { Spa, PerteneceA, Empleado, TrabajaEn, Sesion, Cliente, Paquete, Agenda, Cabina, Compra, Valoracion, FeedbackValoracion, Configuracion, ClientePaqueteSesiones};

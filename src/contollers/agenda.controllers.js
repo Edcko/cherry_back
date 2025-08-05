@@ -74,6 +74,15 @@ const agendaController = {
             res.status(201).json(newCita);
         } catch (error) {
             console.error(error);
+            
+            // Manejar errores específicos de validación de sesiones
+            if (error.message.includes('No tienes sesiones disponibles') || 
+                error.message.includes('No tienes este paquete comprado')) {
+                return res.status(400).json({ 
+                    message: error.message 
+                });
+            }
+            
             res.status(500).json({ message: 'Error creating cita' });
         }
     },    
