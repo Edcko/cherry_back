@@ -44,11 +44,6 @@ Paquete.init({
     numero_zonas_cuerpo: {
         type: DataTypes.INTEGER,
     },
-    sesiones_restantes: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
-    },
 }, {
     sequelize: db.sequelize,
     modelName: 'Paquete',
